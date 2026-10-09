@@ -6,9 +6,11 @@ Son güncelleme: 9 Ekim 2026. Geliştirme dalı: `feat/simulation-foundation`. B
 
 Temel commit `6090de0`. İzleme katmanı, RNG dahil checkpoint/geri dönüş, dört mod, sekiz saniyelik olay öncesi tampon, tek işlemli taktik taslağı ve ölçülmüş etki paneli uygulandı. Motorun futbol denklemleri değiştirilmedi. Mimari ve sınırlar [2B-1 raporunda](stage-2b-1/REPORT.md).
 
-Doğrulama kaydı: 70 testlik tam paket geçti (133.59 s), sıfır yürütücü hatası. Sonrasında eklenen ardışık mevki değişimi regresyonu ve mevcut taslak testi hedefli koşuda geçti. İlk üç tarayıcı testi geçti. Varsayılan önemli-an modunda bütün maçı ve gerçek izleme süresini ölçen dördüncü tarayıcı kontrolü sürüyor. Son kontrol: kontra seçicisinde zaman birimi saniyedir; gol geçişi görünür anı tutar ve başlama konumuna geçişi örter. Bu son düzeltmelerin izleme testleri ve üretim derlemesi tekrar doğrulanacak.
+Uygulama commit'i `0c0ad64`; doğrulama ve güncel görüntüler takip commit'inde. **70 testlik tam paket geçti (133.59 s)**; son kaynak üzerinde **7/7 izleme testi geçti (84.40 s)**. Toplam kapsam 64 mevcut + 7 yeni = 71 test; tek koşuda 71 iddiası yok. Dört Playwright senaryosu, strict TypeScript/Vite üretim derlemesi, Prettier ve diff kontrolü geçti. Varsayılan Önemli Anlar/1×/2026 tohumunda tam maç **217.2 gerçek saniye** sürdü; devre arası ve maç sonu korundu. Ekran görüntüleri `docs/stage-2b-1/screenshots/` altında.
 
-Kalan teslim işleri: `/tmp/2b-browser-final.log` sonucunu al; `tests/viewing.test.ts` son koşusunu ve derlemeyi tamamla; güncel ekran görüntülerini rapora ekle; bu kaydı sonuçlarla güncelle; geliştirme dalını gönderip taslak PR #1'i güncelle. Eski 128 maçlık Aşama 2A kalibrasyonunu yeniden çalıştırma: bu aşama denklemleri değiştirmiyor.
+Bu aşamanın geliştirme ve doğrulaması tamamlandı. Test sırasında düzeltilenler: Vitest'e modlar arasında kontrol vererek RPC zaman aşımını kaldırma; karşılaştırma değerlerinin dar panelde kesilmesi; kontra seçicisinde saniye/tick ayrımı; art arda mevki takaslarının korunması; sekans sınırında gol gösteriminin tutulması. Fizik/karar denklemleri değiştirilmedi ve eski 128 maçlık kalibrasyon gereksiz yere tekrarlanmadı.
+
+Sonraki oturumda yeni izleme katmanını yeniden yazma. Açık 2B-1 işleri: düşük güçlü cihazlarda Web Worker/performance değerlendirmesi, farklı tohumlarda seyir süresi ve kullanıcı geri bildirimi, daha gelişmiş alan kontrolü ölçümü. Önemli-an eşikleri sezgiseldir; 217.2 sn tek cihaz/tek maç ölçümüdür. Alttaki Aşama 2A gerçekçilik eksikleri devam ediyor. Gelişmiş draft/çok oyunculuya geçiş bu görev kapsamında değildir.
 
 ## Aşama 2A — tamamlanan temel
 

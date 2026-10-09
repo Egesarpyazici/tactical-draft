@@ -37,7 +37,17 @@ Son 120 saniyedeki müdahale/pas arası top kazanımları saha üçlülerine, ta
 
 ## Doğrulama durumu
 
-Son test ve tarayıcı sonuçları teslim kontrolünde buraya eklenecektir. Önceki 64 motor testi korunur; mevcut tarayıcı akışının beklentileri açık taslak uygulama ve batch kayıt biçimine uyarlanır. Motor/simülasyon adımları atlanmaz.
+- **70 testlik tam paket geçti (133.59 s), sıfır yürütücü hatası.** Önceki 64 motor testi korunur; altı yeni test checkpoint/RNG, atomik taslak, görünen ana geri dönüş, dört modda aynı tam maç ve komutlar, seçiciler ve golün gösterimde tutulmasını kapsar.
+- **Son izleme paketinde 7/7 test geçti (84.40 s), sıfır yürütücü hatası.** Ardışık mevki takası regresyonu dahil son seçici/gösterim/taslak kodu doğrulandı. Toplam kapsam 64 mevcut + 7 yeni = **71 testtir**; kayıtlı koşular 70 testlik tam paket ve son 7 testlik hedefli pakettir, tek bir 71-test koşusu iddia edilmez.
+- **Strict TypeScript + Vite üretim derlemesi geçti (13.70 s).** Prettier ve `git diff --check` temiz. Phaser paketi 1.21 MB / gzip 332 kB; mevcut paket boyutu uyarısı sürer.
+- **4 Playwright senaryosu geçti (4.3 dk toplam).** Hızlı sonuçta iki yarı, canlı rol/taktik, batch JSON, mobil 390 px, önemli anda müdahale ve tek anlatım, analiz panelinin taşmaması, mod değişimi ve varsayılan önemli-an modunda tam 90 dakika.
+- Varsayılan **Önemli Anlar, 1×, tohum 2026: 217.2 gerçek saniye (3 dk 37 sn)**. Otomatik devre arası tıklaması dahil; insanın karar verme süresi hariç. Bu ortamın Chromium ölçümüdür, tek maçtır; farklı cihaz/tohum için performans veya keyif garantisi değildir. Son maç saati 90:00; gol sayıları olaylarla, devre/maç sonu olayları tekil olarak doğrulandı.
+- İlk uzun izleme testi aynı senkron test içinde dört maç çalıştırınca Vitest `onTaskUpdate` zaman aşımı verdi. Modlar arasında event loop'a dönülerek giderildi; hatalar susturulmadı, motor adımları atlanmadı.
+- Görsel kontrolde dar panelde kesilen karşılaştırma değerleri düzeltildi ve tarayıcıda taşma kontrolü eklendi. Kontra seçicisi sahiplik zamanının **saniye** birimini kullanır. Yer değiştirme komutları birleştirilirken farklı slot takasları korunur.
+
+Gerçek tarayıcı görüntüleri: [önemli an](screenshots/highlight.png), [taktik müdahalesi ve gözlem](screenshots/intervention.png), [hızlı sonuç](screenshots/match-finished.png), [önemli anlarla 90 dakika](screenshots/key-full-time.png), [mobil](screenshots/mobile.png). Ekran görüntüleri test çalışırken uygulamadan alındı; sahneler çizilmedi.
+
+Aşama 2A'nın 128 maçlık karşılaştırması tarihsel kayıt olarak korundu, bu görevde gereksiz yere tekrar çalıştırılmadı. Bu aşamanın dört mod karşılaştırması aynı tohum ve aynı devre arası batch komutuyla yalnız skoru değil bütün oyuncu, olay, istatistik ve komut durumunu eşitlik açısından denetler. İzleme sırasında müdahale testinde komutsuz devamdan farklı hedefler ve komutlu doğrudan motora eşit sonuç ayrıca doğrulanır.
 
 ## Sınırlar
 

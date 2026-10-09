@@ -61,7 +61,7 @@ Tarayıcı testi varsayılan `/usr/bin/chromium` kullanır. Başka sistemlerde `
 
 [Aşama 2A tasarım ve rol kapsamı](docs/stage-2a/DESIGN.md) · [Karşılaştırmalı doğrulama](docs/stage-2a/REPORT.md) · [Gerçek futbol referansları](docs/stage-2a/REFERENCES.md)
 
-İlk sürümün tarihsel kayıtları: [mimari](docs/ARCHITECTURE.md), [doğrulama](docs/VALIDATION.md). Bunlar v0.1 içindir; güncel davranış için Aşama 2A belgelerini kullanın.
+İlk sürümün tarihsel kayıtları: [mimari](docs/ARCHITECTURE.md), [doğrulama](docs/VALIDATION.md). Bunlar v0.1 içindir; güncel davranış için Aşama 2A ve 2B-1 belgelerini kullanın.
 
 ## Barındırma ve sonraki aşama
 
