@@ -22,6 +22,7 @@ export function Pitch({ state, selected, onSelect }: Props) {
       history: { x: number; y: number }[] = [];
       lastTick = -1;
       halo!: Phaser.GameObjects.Arc;
+      ownerRing!: Phaser.GameObjects.Arc;
       create() {
         const g = this.add.graphics();
         g.fillStyle(0x193f34);
@@ -70,14 +71,25 @@ export function Pitch({ state, selected, onSelect }: Props) {
             .on('pointerdown', () => select.current(p.id));
           this.dots.set(p.id, container);
         }
-        this.ball = this.add.circle(0, 0, 4, 0xffffff).setStrokeStyle(1.5, 0x122b23);
+        this.ownerRing = this.add.circle(0, 0, 14, 0xffffff, 0).setStrokeStyle(2, 0xd4ed8b, 0.9);
+        this.ball = this.add.circle(0, 0, 5, 0xffffff).setStrokeStyle(1.5, 0x122b23);
       }
-      update() {
+      update(_time: number, delta: number) {
         const s = current.current;
+        const snap =
+          this.lastTick < 0 ||
+          s.tick < this.lastTick ||
+          s.tick - this.lastTick > 12 ||
+          !!s.restart ||
+          s.phase !== 'playing';
+        const blend = snap ? 1 : 1 - Math.exp(-delta / 35);
         this.ink.clear();
         for (const p of s.players) {
           const dot = this.dots.get(p.id)!;
-          dot.setPosition(sx(p.pos.x), sy(p.pos.y));
+          dot.setPosition(
+            dot.x + (sx(p.pos.x) - dot.x) * blend,
+            dot.y + (sy(p.pos.y) - dot.y) * blend,
+          );
           if (p.id === selection.current) {
             this.halo.setPosition(dot.x, dot.y);
             this.ink.lineStyle(1, 0xffffff, 0.4);
@@ -85,7 +97,13 @@ export function Pitch({ state, selected, onSelect }: Props) {
           }
         }
         this.halo.setVisible(!!selection.current);
-        this.ball.setPosition(sx(s.ball.pos.x), sy(s.ball.pos.y));
+        this.ball.setPosition(
+          this.ball.x + (sx(s.ball.pos.x) - this.ball.x) * blend,
+          this.ball.y + (sy(s.ball.pos.y) - this.ball.y) * blend,
+        );
+        const owner = s.ball.owner ? this.dots.get(s.ball.owner) : null;
+        this.ownerRing.setVisible(!!owner);
+        if (owner) this.ownerRing.setPosition(owner.x, owner.y);
         if (s.tick !== this.lastTick) {
           if (s.tick < this.lastTick || s.restart || s.ball.owner) this.history = [];
           else this.history.push({ ...s.ball.pos });

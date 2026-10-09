@@ -17,6 +17,7 @@ import { organize, separatedTarget } from './organization';
 import { passOption, pressure, shotOpportunity } from './opportunities';
 import { emptyPlayerStats, emptyTeamStats, record } from './stats';
 const other = (id: TeamId) => (1 - id) as TeamId;
+export type MatchCheckpoint = { state: MatchState; random: number };
 export class Match {
   readonly state: MatchState;
   private random: Random;
@@ -116,6 +117,17 @@ export class Match {
       c = structuredClone(command);
     if (!['ready', 'halfTime', 'paused'].includes(s.phase))
       throw new Error('Pause the match to change tactics');
+    if (c.kind === 'batch') {
+      if (!c.commands.length) return;
+      const candidate = Match.restore(this.checkpoint());
+      for (const item of c.commands) candidate.command(item);
+      candidate.state.commands = candidate.state.commands.slice(0, s.commands.length);
+      candidate.state.events = candidate.state.events.slice(0, s.events.length);
+      candidate.state.commands.push({ tick: s.tick, sequence: s.commands.length, command: c });
+      record(candidate.state, { kind: 'tactics', command: c, detail: 'Taktik planı uygulandı' });
+      Object.assign(s, candidate.state);
+      return;
+    }
     if (c.team !== 0 && c.team !== 1) throw new Error('Unknown team');
     if (c.kind === 'tactics') {
       validateTactics(c.tactics);
@@ -150,6 +162,24 @@ export class Match {
     record(s, { kind: 'tactics', team: c.team, command: c });
     for (const p of s.players) p.decisionAt = 0;
     if (s.phase === 'ready') this.resetShape();
+  }
+  /** Internal checkpoint: histories are append-only; clone their arrays, not every past event. */
+  checkpoint(): MatchCheckpoint {
+    const { events, commands, ...dynamic } = this.state;
+    return {
+      state: { ...structuredClone(dynamic), events: events.slice(), commands: commands.slice() },
+      random: this.random.checkpoint(),
+    };
+  }
+  static restore(checkpoint: MatchCheckpoint): Match {
+    const match = new Match(checkpoint.state.initialTeams, checkpoint.state.seed);
+    const { events, commands, ...dynamic } = checkpoint.state;
+    Object.assign(match.state, structuredClone(dynamic), {
+      events: events.slice(),
+      commands: commands.slice(),
+    });
+    match.random.restore(checkpoint.random);
+    return match;
   }
   snapshot(): MatchState {
     return structuredClone(this.state);

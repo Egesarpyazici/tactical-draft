@@ -1,7 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { Match } from '../engine/match';
 import { createTeams } from '../data/teams';
-import type { TeamId, Tactics } from '../engine/types';
+import { MatchDirector } from '../viewing/director';
+import { TacticalDraft } from '../viewing/draft';
+import { viewNames, type ViewMode } from '../viewing/highlights';
+import { TacticalFeedback } from './TacticalFeedback';
+import type { TeamId, Tactics, SingleTacticalCommand } from '../engine/types';
 import { Pitch } from './Pitch';
 import { RoleEditor } from './RoleEditor';
 import { TacticsPanel } from './TacticsPanel';
@@ -21,10 +25,13 @@ const actions: Record<string, string> = {
 };
 export function App() {
   const [initialEngine] = useState(() => new Match(createTeams()));
-  const engine = useRef(initialEngine);
-  const [s, setS] = useState(() => engine.current.snapshot()),
+  const [initialDirector] = useState(() => new MatchDirector(initialEngine));
+  const director = useRef(initialDirector);
+  const [draft, setDraft] = useState<TacticalDraft | null>(null);
+  const [s, setS] = useState(() => director.current.state),
     [running, setRunning] = useState(false),
-    [speed, setSpeed] = useState(12),
+    [speed, setSpeed] = useState(1),
+    [mode, setMode] = useState<ViewMode>('key'),
     [seed, setSeed] = useState('2026'),
     [selected, setSelected] = useState<string | null>('0-9'),
     [team, setTeam] = useState<TeamId>(0),
@@ -33,22 +40,13 @@ export function App() {
   useEffect(() => {
     if (!running) return;
     let last = performance.now(),
-      acc = 0,
-      frame = 0,
-      published = 0;
+      frame = 0;
     const run = (now: number) => {
-      acc += Math.max(0, Math.min((now - last) / 1000, 0.25)) * speed;
+      director.current.speed = speed;
+      director.current.advance(Math.min((now - last) / 1000, 0.25));
       last = now;
-      const ticks = Math.floor(acc / 0.1);
-      if (ticks) {
-        engine.current.step(ticks);
-        acc -= ticks * 0.1;
-      }
-      if (now - published > 40 || engine.current.state.phase !== 'playing') {
-        setS(engine.current.snapshot());
-        published = now;
-      }
-      if (engine.current.state.phase !== 'playing') {
+      setS(director.current.state);
+      if (director.current.state.phase !== 'playing') {
         setRunning(false);
         return;
       }
@@ -57,13 +55,12 @@ export function App() {
     frame = requestAnimationFrame(run);
     return () => cancelAnimationFrame(frame);
   }, [running, speed]);
-  const sync = () => setS(engine.current.snapshot());
+  const sync = () => setS(director.current.state);
   const start = () => {
-    if (s.phase === 'ready') engine.current.start();
-    else if (s.phase === 'halfTime') engine.current.resumeHalf();
-    else if (s.phase === 'playing') engine.current.pause();
-    else if (s.phase === 'paused') engine.current.resume();
-    setRunning(engine.current.state.phase === 'playing');
+    if (draft?.commands.length) return;
+    if (s.phase === 'playing') director.current.pause();
+    else director.current.start();
+    setRunning(director.current.state.phase === 'playing');
     sync();
   };
   const reset = () => {
@@ -75,12 +72,23 @@ export function App() {
     setRunning(false);
     const teams = createTeams();
     teams.forEach((t, i) => (t.tactics = { ...s.teams[i].tactics }));
-    engine.current = new Match(teams, n);
+    director.current = new MatchDirector(new Match(teams, n));
+    director.current.mode = mode;
+    setDraft(null);
     setError('');
     sync();
   };
-  const setTactics = (t: Tactics) => {
-    engine.current.setTactics(team, t);
+  const edit = (c: SingleTacticalCommand) => {
+    const next = new TacticalDraft(director.current.current);
+    for (const command of draft?.commands ?? []) next.edit(command);
+    next.edit(c);
+    setDraft(next);
+  };
+  const setTactics = (t: Tactics) => edit({ kind: 'tactics', team, tactics: t });
+  const editorState = draft?.preview.state ?? s;
+  const changeMode = (next: ViewMode) => {
+    director.current.setMode(next);
+    setMode(next);
     sync();
   };
   const total = s.stats[0].possessionTicks + s.stats[1].possessionTicks;
@@ -94,7 +102,7 @@ export function App() {
     .slice(-50)
     .reverse();
   const exportMatch = () => {
-    const blob = new Blob([JSON.stringify({ version: 2, ...engine.current.snapshot() }, null, 2)], {
+    const blob = new Blob([JSON.stringify({ version: 3, ...s }, null, 2)], {
       type: 'application/json',
     });
     const url = URL.createObjectURL(blob),
@@ -124,7 +132,7 @@ export function App() {
           </div>
           <div className="header-meta">
             <span className="status-dot" /> YEREL SİMÜLASYON{' '}
-            <span className="version">ALPHA 0.2A</span>
+            <span className="version">ALPHA 0.2B-1</span>
           </div>
         </header>
         <main>
@@ -192,14 +200,61 @@ export function App() {
                   </span>
                   <span className="muted">105 × 68 m</span>
                 </div>
-                <Pitch
-                  state={s}
-                  selected={selected}
-                  onSelect={(id) => {
-                    setSelected(id);
-                    setTeam(s.players.find((p) => p.id === id)!.team);
-                  }}
-                />
+                <div
+                  className={`view-stage ${director.current.status === 'searching' && running ? 'searching' : ''}`}
+                >
+                  <Pitch
+                    state={s}
+                    selected={selected}
+                    onSelect={(id) => {
+                      setSelected(id);
+                      setTeam(s.players.find((p) => p.id === id)!.team);
+                    }}
+                  />
+                  {running && director.current.status === 'searching' && (
+                    <div className="view-overlay">
+                      <strong>
+                        {mode === 'quick'
+                          ? 'Maç simüle ediliyor'
+                          : 'Maç akıyor · sıradaki pozisyon aranıyor'}
+                      </strong>
+                      <span>{clock(s.time)} · İstediğiniz an duraklatabilirsiniz</span>
+                    </div>
+                  )}
+                  {s.events.some(
+                    (e) => e.kind === 'goal' && s.tick - e.tick >= 0 && s.tick - e.tick < 25,
+                  ) &&
+                    director.current.status !== 'searching' && (
+                      <div
+                        className="goal-banner"
+                        key={s.events.filter((e) => e.kind === 'goal').at(-1)?.id}
+                      >
+                        GOL{' '}
+                        <span>
+                          {s.stats[0].goals} — {s.stats[1].goals}
+                        </span>
+                      </div>
+                    )}
+                </div>
+                <div className="view-modes" aria-label="Maç izleme modu">
+                  {(Object.keys(viewNames) as ViewMode[]).map((m) => (
+                    <button
+                      key={m}
+                      aria-pressed={mode === m}
+                      className={mode === m ? 'active' : ''}
+                      onClick={() => changeMode(m)}
+                    >
+                      {viewNames[m]}
+                    </button>
+                  ))}
+                </div>
+                <p className="view-caption">
+                  {mode === 'full'
+                    ? 'Kesintisiz saha görünümü · 1×, maç saatini 12 kat ilerletir.'
+                    : mode === 'quick'
+                      ? 'Görüntü beklemeden hesaplama · devre arasında durur.'
+                      : 'Gerçek pozisyonların gelişimi ve sonucu · 1×, pozisyonları 4 kat hızla gösterir.'}
+                </p>
                 <div className="pitch-legend">
                   <span>
                     <i className="lime" /> ATL
@@ -230,7 +285,11 @@ export function App() {
                   </div>
                 )}
                 <div className="playback">
-                  <button className="primary" disabled={s.phase === 'finished'} onClick={start}>
+                  <button
+                    className="primary"
+                    disabled={s.phase === 'finished' || !!draft?.commands.length}
+                    onClick={start}
+                  >
                     {s.phase === 'ready'
                       ? '▶ Maçı başlat'
                       : s.phase === 'halfTime'
@@ -239,9 +298,9 @@ export function App() {
                           ? 'Ⅱ Duraklat'
                           : '▶ Devam et'}
                   </button>
-                  <div className="speed">
+                  <div className="speed" hidden={mode === 'quick'}>
                     <span>HIZ</span>
-                    {[1, 6, 12, 30, 120].map((n) => (
+                    {[1, 2, 4].map((n) => (
                       <button
                         key={n}
                         className={speed === n ? 'active' : ''}
@@ -348,11 +407,31 @@ export function App() {
                   </button>
                 ))}
               </div>
+              <TacticalFeedback director={director.current} team={team} />
               <TacticsPanel
-                team={s.teams[team]}
+                team={editorState.teams[team]}
                 editable={s.phase === 'ready' || s.phase === 'halfTime' || s.phase === 'paused'}
                 onChange={setTactics}
               />
+              {draft?.commands.length ? (
+                <div className="draft-actions" role="status">
+                  <strong>Uygulanmamış taktik taslağı</strong>
+                  <span>Devam etmeden uygulayın veya vazgeçin.</span>
+                  <button
+                    className="primary"
+                    onClick={() => {
+                      director.current.apply(draft.commands);
+                      setDraft(null);
+                      sync();
+                    }}
+                  >
+                    Değişiklikleri Uygula
+                  </button>
+                  <button className="secondary" onClick={() => setDraft(null)}>
+                    Vazgeç
+                  </button>
+                </div>
+              ) : null}
               {player && pstats && (
                 <section className="panel player-card">
                   <div className="section-title">
@@ -382,13 +461,10 @@ export function App() {
                     </span>
                   </div>
                   <RoleEditor
-                    state={s}
-                    p={player}
+                    state={editorState}
+                    p={editorState.players.find((p) => p.id === player.id)!}
                     editable={s.phase === 'ready' || s.phase === 'paused' || s.phase === 'halfTime'}
-                    onCommand={(c) => {
-                      engine.current.command(c);
-                      sync();
-                    }}
+                    onCommand={edit}
                   />
                   <details>
                     <summary>Özellikler ve karar gerekçesi</summary>
@@ -442,8 +518,8 @@ export function App() {
             {error && <span role="alert">{error}</span>}
           </footer>
           <p className="scope-note">
-            Motor v0.2A · Yerel tek kullanıcı · Ofsayt, faul, kart, oyuncu değişikliği ve hava topu
-            henüz uygulanmadı. Bu sürüm rekabetçi denge iddiası taşımaz.
+            Motor v0.2B-1 · Yerel tek kullanıcı · Ofsayt, faul, kart, oyuncu değişikliği ve hava
+            topu henüz uygulanmadı. Bu sürüm rekabetçi denge iddiası taşımaz.
           </p>
         </main>
       </div>

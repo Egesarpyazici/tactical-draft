@@ -42,6 +42,8 @@ export function describe(e: MatchEvent, s: MatchState) {
     case 'miscontrol':
       return `${name} ilk kontrolde topu açtı.`;
     case 'tactics':
-      return `${name}: taktik talimatları güncellendi.`;
+      return e.command?.kind === 'batch'
+        ? 'Taktik planı uygulandı.'
+        : `${name}: taktik talimatları güncellendi.`;
   }
 }

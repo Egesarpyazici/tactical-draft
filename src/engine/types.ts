@@ -196,5 +196,7 @@ export type MatchState = {
 };
 
 export type TacticalCommand =
+  SingleTacticalCommand | { kind: 'batch'; commands: SingleTacticalCommand[] };
+export type SingleTacticalCommand =
   | { kind: 'tactics'; team: TeamId; tactics: Tactics }
   | { kind: 'assignment'; team: TeamId; player: string; slot: number; roleId: RoleId; duty: Duty };

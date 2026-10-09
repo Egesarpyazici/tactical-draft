@@ -16,6 +16,12 @@ export class Random {
   constructor(seed: number) {
     this.state = seed >>> 0;
   }
+  checkpoint() {
+    return this.state;
+  }
+  restore(state: number) {
+    this.state = state;
+  }
   next() {
     let t = (this.state += 0x6d2b79f5);
     t = Math.imul(t ^ (t >>> 15), t | 1);

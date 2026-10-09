@@ -1,4 +1,4 @@
-import type { MatchState, Player, TacticalCommand } from '../engine/types';
+import type { MatchState, Player, SingleTacticalCommand } from '../engine/types';
 import {
   ROLES,
   defaultAssignment,
@@ -40,7 +40,7 @@ export function RoleEditor({
   state: MatchState;
   p: Player;
   editable: boolean;
-  onCommand: (c: TacticalCommand) => void;
+  onCommand: (c: SingleTacticalCommand) => void;
 }) {
   const profile = ROLES[p.roleId],
     fit = roleFit(p, p.roleId),

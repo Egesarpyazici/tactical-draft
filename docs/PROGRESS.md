@@ -2,7 +2,15 @@
 
 Son güncelleme: 9 Ekim 2026. Geliştirme dalı: `feat/simulation-foundation`. Başlangıç: `0ea9563`. İnceleme: [taslak PR #1](https://github.com/Egesarpyazici/tactical-draft/pull/1). Ana dala birleştirme veya yayın yapılmadı.
 
-## Tamamlanan geliştirmeler
+## Aşama 2B-1 — güncel çalışma
+
+Temel commit `6090de0`. İzleme katmanı, RNG dahil checkpoint/geri dönüş, dört mod, sekiz saniyelik olay öncesi tampon, tek işlemli taktik taslağı ve ölçülmüş etki paneli uygulandı. Motorun futbol denklemleri değiştirilmedi. Mimari ve sınırlar [2B-1 raporunda](stage-2b-1/REPORT.md).
+
+Doğrulama kaydı: 70 testlik tam paket geçti (133.59 s), sıfır yürütücü hatası. Sonrasında eklenen ardışık mevki değişimi regresyonu ve mevcut taslak testi hedefli koşuda geçti. İlk üç tarayıcı testi geçti. Varsayılan önemli-an modunda bütün maçı ve gerçek izleme süresini ölçen dördüncü tarayıcı kontrolü sürüyor. Son kontrol: kontra seçicisinde zaman birimi saniyedir; gol geçişi görünür anı tutar ve başlama konumuna geçişi örter. Bu son düzeltmelerin izleme testleri ve üretim derlemesi tekrar doğrulanacak.
+
+Kalan teslim işleri: `/tmp/2b-browser-final.log` sonucunu al; `tests/viewing.test.ts` son koşusunu ve derlemeyi tamamla; güncel ekran görüntülerini rapora ekle; bu kaydı sonuçlarla güncelle; geliştirme dalını gönderip taslak PR #1'i güncelle. Eski 128 maçlık Aşama 2A kalibrasyonunu yeniden çalıştırma: bu aşama denklemleri değiştirmiyor.
+
+## Aşama 2A — tamamlanan temel
 
 - Ortak savunma hatları, tekil markaj, birincil/destek presi, pas alıcısı sorumluluğu, boş alan desteği ve yerel ayrışma.
 - Pas koridoru/varış süresi/ilk kontrol değerlendirmesi; ayrı müdahale denemeleri ve kontrol süreleri; geometrik şut icrası ve kaleci karar düzeltmesi.

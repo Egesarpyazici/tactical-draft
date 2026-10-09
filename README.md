@@ -1,6 +1,6 @@
 # Tactical Draft
 
-Kurgusal iki takımın 90 dakikalık maçını oynatan, React + TypeScript + Vite / Phaser 3 tabanlı **Aşama 2A yerel geliştirme alfası**. Sonuç baştan seçilmez: top hareketi, bireysel kararlar, müdahaleler ve kale çizgisini geçişler skor üretir.
+Kurgusal iki takımın 90 dakikalık maçını oynatan, React + TypeScript + Vite / Phaser 3 tabanlı **Aşama 2B-1 yerel geliştirme alfası**. Sonuç baştan seçilmez: top hareketi, bireysel kararlar, müdahaleler ve kale çizgisini geçişler skor üretir.
 
 Bu sürüm test edilebilir bir motor temeli ve çalışan maç ekranıdır. Profesyonel futbol istatistiklerine kalibre edilmiş, rekabetçi dengesi doğrulanmış veya çok oyunculu bir ürün değildir. Takım organizasyonu, pas karşılama, kontrollü müdahale, 19 oyuncu rolü ve maç içi taktik komutları uygulanmıştır. Kalan gerçekçilik farkları Aşama 2A raporunda açıklanır.
 
@@ -13,7 +13,9 @@ npm ci
 npm run dev
 ```
 
-Vite'nin gösterdiği yerel adresi tarayıcıda açın. Maç öncesi her iki takımın taktiklerini seçin, **Maçı başlat** düğmesine basın. İzleme hızları 1×–120×; 120× hızda yaklaşık 45 saniye aktif izleme süresi ve ayrıca devre arası gerekir. Tarayıcı yavaşsa görüntü/simülasyon duvar saati hızından geri kalabilir; motor adımları atlanmaz. Maç sırasında **Duraklat** ile formasyon, oyuncu mevki/rol/görevi ve takım talimatlarını değiştirip devam edebilirsiniz. Komutlar simülasyon tick'iyle kaydedilir, canlı konumlar sıfırlanmaz. Devre arasında ikinci yarıyı ayrıca başlatın. Maç sonunda skor, takım/oyuncu istatistikleri ve JSON çıktısı kullanılabilir.
+Vite'nin gösterdiği yerel adresi tarayıcıda açın. Taktik ve rol seçimlerini **Değişiklikleri Uygula** ile kaydedin, **Maçı başlat** düğmesine basın. **Önemli Anlar**, **Genişletilmiş**, **Tüm Maç** ve **Hızlı Sonuç** aynı motoru kullanır. Önemli anlar pozisyon öncesi sekiz saniyeye kadar gelişimi içerir. 1×, önemli anlarda dört kat; tüm maçta 12 kat maç saati anlamına gelir. 2× ve 4× görünüm hızları da vardır.
+
+Her modda **Duraklat** ile taktik/rol/mevki değiştirilebilir. Düzenleme taslakta birikir; **Değişiklikleri Uygula** veya **Vazgeç** kullanın. Henüz gösterilmemiş gelecek iptal edilir ve simülasyon görünen gerçek durumdan devam eder. **Sahadaki etki** paneli ölçülmüş konum/iş yükü/pas bağlantılarını gösterir. Bütün modlar devre arasında durur. Maç sonunda gerçek istatistikler ve JSON çıktısı kullanılabilir. Ayrıntılar: [2B-1 raporu](docs/stage-2b-1/REPORT.md).
 
 ```sh
 npm test                      # motor, fizik, taktik ve deterministik tam maç testleri
@@ -36,25 +38,26 @@ Tarayıcı testi varsayılan `/usr/bin/chromium` kullanır. Başka sistemlerde `
 - Pas, ilk kontrol, top sürme, müdahale, şut, kaleci yakalama/sektirme ve fiziksel gol geçişi.
 - Başlama, taç, köşe vuruşu, kale vuruşu; otomatik devre arası ve 90:00 bitiş.
 - Motor verisini gösteren Phaser saha, hız/duraklatma, kadro ve karar inceleme panelleri.
-- Tam maç olayları, müdahale denemeleri/başarıları, oyuncu mesafe/pres süresi ve JSON v2 indirme.
+- Tam maç olayları, müdahale denemeleri/başarıları, oyuncu mesafe/pres süresi ve JSON v3 indirme.
 - Başlangıç girdileri ve tick sıralı komutlardan deterministik yeniden üretim (`replayMatch`).
 
 **Henüz yok:** ofsayt, faul, kart, penaltı, serbest vuruş, hava topu/üçüncü eksen, oyuncu değişikliği, sakatlık, uzatma süresi, draft, çevrim içi oda, kalıcı hesap/veri. Yeniden başlatmalar basitleştirilmiştir; tam futbol kural seti uygulanmaz. Oyun içi açıklama da bu eksikleri belirtir.
 
 ## Kod haritası
 
-| Konum                     | Sorumluluk                                            |
-| ------------------------- | ----------------------------------------------------- |
-| `src/engine/types.ts`     | Motor sözleşmeleri ve veri modelleri                  |
-| `src/engine/match.ts`     | Yaşam döngüsü, sabit adım, hareket ve top fiziği      |
-| `src/engine/decisions.ts` | Puanlanabilir ve incelenebilir karar adayları         |
-| `src/engine/tactics.ts`   | Formasyon/rol haritaları ve taktik konumlandırma      |
-| `src/engine/stats.ts`     | Gerçek olaylardan istatistik biriktirme               |
-| `src/engine/math.ts`      | Tohumlu RNG, geometri, saha/zaman sabitleri           |
-| `src/data/teams.ts`       | Kurgusal kadro ve nitelikler                          |
-| `src/ui/`                 | React kontrolleri ve salt okunur Phaser görünümü      |
-| `tests/`                  | Vitest motor testleri ve Playwright tarayıcı testleri |
-| `docs/`                   | Mimari, doğrulama raporu ve ham çoklu maç çıktısı     |
+| Konum                     | Sorumluluk                                             |
+| ------------------------- | ------------------------------------------------------ |
+| `src/engine/types.ts`     | Motor sözleşmeleri ve veri modelleri                   |
+| `src/engine/match.ts`     | Yaşam döngüsü, sabit adım, hareket ve top fiziği       |
+| `src/engine/decisions.ts` | Puanlanabilir ve incelenebilir karar adayları          |
+| `src/engine/tactics.ts`   | Formasyon/rol haritaları ve taktik konumlandırma       |
+| `src/engine/stats.ts`     | Gerçek olaylardan istatistik biriktirme                |
+| `src/engine/math.ts`      | Tohumlu RNG, geometri, saha/zaman sabitleri            |
+| `src/data/teams.ts`       | Kurgusal kadro ve nitelikler                           |
+| `src/viewing/`            | Önemli an seçimi, checkpoint tamponu, taslak ve gözlem |
+| `src/ui/`                 | React kontrolleri ve salt okunur Phaser görünümü       |
+| `tests/`                  | Vitest motor testleri ve Playwright tarayıcı testleri  |
+| `docs/`                   | Mimari, doğrulama raporu ve ham çoklu maç çıktısı      |
 
 [Aşama 2A tasarım ve rol kapsamı](docs/stage-2a/DESIGN.md) · [Karşılaştırmalı doğrulama](docs/stage-2a/REPORT.md) · [Gerçek futbol referansları](docs/stage-2a/REFERENCES.md)
 
