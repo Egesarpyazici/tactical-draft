@@ -1,5 +1,6 @@
 import type { Formation, MatchState, Player, TeamId, Vec, Role } from './types';
 import { clamp, inside } from './math';
+import { roleTarget } from './roles';
 const shapes: Record<Formation, Vec[]> = {
   '4-3-3': [
     [6, 34],
@@ -71,35 +72,36 @@ export const world = (p: Vec, team: TeamId, half: 1 | 2): Vec => ({
 });
 export function anchor(s: MatchState, p: Player): Vec {
   const t = s.teams[p.team].tactics,
-    slot = s.teams[p.team].players.findIndex((x) => x.id === p.id),
-    base = shapes[t.formation][slot];
-  if (p.keeper)
-    return world(
-      {
-        x: 1.8 + clamp(localX(s.ball.pos.x, p.team, s.half) / 105) * 2,
-        y: clamp(34 + (s.ball.pos.y - 34) * 0.25 * direction(p.team, s.half), 29, 39),
-      },
-      p.team,
-      s.half,
+    base = shapes[t.formation][p.slot ?? s.teams[p.team].players.findIndex((x) => x.id === p.id)];
+  const bx = localX(s.ball.pos.x, p.team, s.half),
+    by = direction(p.team, s.half) === 1 ? s.ball.pos.y : 68 - s.ball.pos.y;
+  if (p.keeper) {
+    const depth = p.roleId === 'sweeper' ? clamp(bx * 0.14, 2, 11) : clamp(bx * 0.045, 1.2, 4);
+    return inside(
+      world(
+        { x: depth, y: clamp(34 + ((by - 34) * depth) / Math.max(8, bx), 29, 39) },
+        p.team,
+        s.half,
+      ),
     );
-  const attacking = s.possession === p.team,
-    bx = localX(s.ball.pos.x, p.team, s.half);
-  const lineShift = (t.line - 50) * 0.22;
-  const compression = attacking ? 1 : 0.76;
-  const x =
-    base.x * compression +
-    lineShift +
-    (bx - 52.5) * 0.23 +
-    (attacking ? 7 + (t.mentality - 50) * 0.12 : -5);
-  const spread = (0.5 + (t.width / 100) * 0.75) * (attacking ? 1 : 0.82);
-  const by = direction(p.team, s.half) === 1 ? s.ball.pos.y : 68 - s.ball.pos.y;
-  return inside(
-    world(
-      { x: clamp(x, 7, 96), y: 34 + (base.y - 34) * spread + (by - 34) * 0.12 },
-      p.team,
-      s.half,
-    ),
+  }
+  const attacking = s.possession === p.team;
+  // One shared line with 13–17m vertical links, rather than independent slot compression.
+  const back = attacking
+    ? clamp(bx - 30, 15 + t.line * 0.12, 57)
+    : clamp(16 + (t.line - 50) * 0.24 + (bx - 45) * 0.28, 8, 54);
+  const level = base.x < 30 ? 0 : base.x < 46 ? 1 : base.x < 58 ? 1.3 : base.x < 70 ? 2 : 2.4;
+  const spacing = attacking ? 15 : 12.5;
+  const spread = attacking ? 0.62 + t.width * 0.006 : 0.48 + t.width * 0.0045;
+  const target = roleTarget(
+    p,
+    {
+      x: back + level * spacing + (attacking ? (t.mentality - 50) * 0.05 : 0),
+      y: 34 + (base.y - 34) * spread + (by - 34) * 0.1,
+    },
+    attacking,
   );
+  return inside(world({ x: clamp(target.x, 5, 96), y: clamp(target.y, 4, 64) }, p.team, s.half));
 }
 export function validateTactics(t: import('./types').Tactics) {
   if (!shapes[t.formation]) throw new Error('Unknown formation');

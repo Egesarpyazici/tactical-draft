@@ -1,7 +1,7 @@
 {
   "name": "tactical-draft",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.2.0",
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
@@ -12,7 +12,8 @@
     "simulate": "node --import tsx scripts/simulate.ts",
     "test:e2e": "playwright test",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "benchmark": "node --import tsx scripts/benchmark.ts"
   },
   "dependencies": {
     "phaser": "^3.90.0",

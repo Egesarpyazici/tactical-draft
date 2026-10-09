@@ -11,6 +11,7 @@ test('play, pause, halftime tactical change, full time and reset', async ({ page
   await expect(page.getByRole('button', { name: 'Maçı başlat' })).toBeEnabled();
   await page.screenshot({ path: 'test-results/match-ready.png', fullPage: true });
   await page.getByRole('button', { name: '120 kat hız', exact: true }).click();
+  await page.getByLabel('Oyuncu rolü').selectOption('falseNine');
   await page.getByRole('button', { name: 'Maçı başlat' }).click();
   await expect(page.getByLabel('Pres yoğunluğu')).toBeDisabled();
   await page.waitForTimeout(800);
@@ -18,16 +19,21 @@ test('play, pause, halftime tactical change, full time and reset', async ({ page
   const paused = await page.getByTestId('match-clock').innerText();
   await page.waitForTimeout(400);
   expect(await page.getByTestId('match-clock').innerText()).toBe(paused);
+  await expect(page.getByLabel('Oyuncu rolü')).toBeEnabled();
+  await page.getByLabel('Oyuncu rolü').selectOption('pressingForward');
+  await page.getByLabel('Oyuncu görevi').selectOption('attack');
+  await page.getByLabel('Pres yoğunluğu').fill('80');
+  await page.screenshot({ path: 'test-results/live-roles.png', fullPage: true });
   await page.getByRole('button', { name: 'Devam et' }).click();
   await expect(page.getByRole('button', { name: 'İkinci yarıyı başlat' })).toBeVisible({
-    timeout: 40000,
+    timeout: 70000,
   });
   await expect(page.getByTestId('match-clock')).toContainText('45:00');
   await page.getByLabel('Pres yoğunluğu').fill('90');
   await page.getByLabel('Diziliş', { exact: true }).selectOption('3-5-2');
   await page.screenshot({ path: 'test-results/halftime.png', fullPage: true });
   await page.getByRole('button', { name: 'İkinci yarıyı başlat' }).click();
-  await expect(page.getByTestId('match-clock')).toContainText('MAÇ SONU', { timeout: 40000 });
+  await expect(page.getByTestId('match-clock')).toContainText('MAÇ SONU', { timeout: 70000 });
   await expect(page.getByTestId('match-clock')).toContainText('90:00');
   await expect(page.getByText('Maç tamamlandı ·')).toBeVisible();
   const downloadPromise = page.waitForEvent('download');
@@ -38,6 +44,13 @@ test('play, pause, halftime tactical change, full time and reset', async ({ page
   const match = JSON.parse(await fs.readFile(path!, 'utf8'));
   expect(match.phase).toBe('finished');
   expect(match.players).toHaveLength(22);
+  expect(
+    match.commands.some(
+      (c: { tick: number; command: { kind: string; roleId: string } }) =>
+        c.tick > 0 && c.command.kind === 'assignment' && c.command.roleId === 'pressingForward',
+    ),
+  ).toBe(true);
+  expect(match.commands.every((c: { sequence: number }, i: number) => c.sequence === i)).toBe(true);
   expect(match.teams[0].tactics.pressing).toBe(90);
   expect(match.stats[0].goals).toBe(
     match.events.filter((e: { kind: string; team: number }) => e.kind === 'goal' && e.team === 0)

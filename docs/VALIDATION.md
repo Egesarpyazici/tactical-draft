@@ -1,5 +1,7 @@
 # Doğrulama raporu · 9 Ekim 2026
 
+> Tarihsel v0.1 kaydı. Güncel motor ve sınırlamalar için [Aşama 2A tasarımı](stage-2a/DESIGN.md) ve [raporu](stage-2a/REPORT.md) geçerlidir.
+
 ## Çalışan teslim kapsamı
 
 Tarayıcıda maçı başlatma, hareketli 22 oyuncu ve topu izleme, hızı değiştirme, duraklatma/devam etme, devre arası iki takımın talimatlarını düzenleme ve 90 dakika sonunda olaylardan hesaplanan sonuçları görüntüleme uygulanmıştır. JSON dışa aktarma bir analiz snapshot'ıdır.

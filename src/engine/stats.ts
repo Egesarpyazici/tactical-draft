@@ -1,5 +1,8 @@
 import type { MatchEvent, MatchState, PlayerStats, TeamStats } from './types';
 export const emptyTeamStats = (): TeamStats => ({
+  tackleAttempts: 0,
+  turnovers: 0,
+  xg: 0,
   goals: 0,
   shots: 0,
   shotsOnTarget: 0,
@@ -28,12 +31,19 @@ export function record(s: MatchState, event: Omit<MatchEvent, 'id' | 'tick' | 't
   const t = s.stats[event.team],
     p = event.player ? s.playerStats[event.player] : undefined;
   switch (event.kind) {
+    case 'tackleAttempt':
+      t.tackleAttempts++;
+      break;
+    case 'turnover':
+      t.turnovers++;
+      break;
     case 'goal':
       t.goals++;
       if (p) p.goals++;
       break;
     case 'shot':
       t.shots++;
+      t.xg += event.xg ?? 0;
       if (event.onTarget) t.shotsOnTarget++;
       if (p) p.shots++;
       break;

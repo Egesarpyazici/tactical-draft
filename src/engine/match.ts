@@ -1,7 +1,20 @@
-import type { Ball, MatchState, Player, Restart, Tactics, Team, TeamId, Vec } from './types';
+import type {
+  Ball,
+  MatchState,
+  Player,
+  Restart,
+  Tactics,
+  Team,
+  TeamId,
+  Vec,
+  TacticalCommand,
+} from './types';
 import { DT, FIELD, Random, clamp, distance, inside, segmentDistance } from './math';
 import { anchor, direction, localX, roleFor, validateTactics } from './tactics';
 import { evaluate } from './decisions';
+import { defaultAssignment, ROLES, validateRole } from './roles';
+import { organize, separatedTarget } from './organization';
+import { passOption, pressure, shotOpportunity } from './opportunities';
 import { emptyPlayerStats, emptyTeamStats, record } from './stats';
 const other = (id: TeamId) => (1 - id) as TeamId;
 export class Match {
@@ -33,6 +46,10 @@ export class Match {
       t.players.map((p, slot) => ({
         ...p,
         role: roleFor(t.tactics.formation, slot),
+        slot,
+        ...defaultAssignment(roleFor(t.tactics.formation, slot)),
+        control: 1,
+        regainAt: 0,
         team: t.id,
         pos: { x: 52.5, y: 34 },
         velocity: { x: 0, y: 0 },
@@ -53,6 +70,7 @@ export class Match {
       half: 1,
       phase: 'ready',
       teams: copy,
+      initialTeams: structuredClone(copy),
       players,
       ball: {
         pos: { x: 52.5, y: 34 },
@@ -62,6 +80,7 @@ export class Match {
         flight: null,
       },
       events: [],
+      commands: [],
       stats: [emptyTeamStats(), emptyTeamStats()],
       playerStats: Object.fromEntries(players.map((p) => [p.id, emptyPlayerStats()])),
       restart: null,
@@ -83,18 +102,54 @@ export class Match {
     for (const p of s.players) p.energy = clamp(p.energy + 0.08);
     this.queueRestart('kickoff', 1, { x: 52.5, y: 34 });
   }
+  pause() {
+    if (this.state.phase === 'playing') this.state.phase = 'paused';
+  }
+  resume() {
+    if (this.state.phase === 'paused') this.state.phase = 'playing';
+  }
   setTactics(team: TeamId, t: Tactics) {
-    if (team !== 0 && team !== 1) throw new Error('Unknown team');
-    if (!['ready', 'halfTime'].includes(this.state.phase))
-      throw new Error('Tactics can change before match or at half time');
-    validateTactics(t);
-    this.state.teams[team].tactics = { ...t };
-    this.state.players
-      .filter((p) => p.team === team)
-      .forEach((p, i) => (p.role = roleFor(t.formation, i)));
-    record(this.state, { kind: 'tactics', team });
-    for (const p of this.state.players) p.decisionAt = 0;
-    if (this.state.phase === 'ready') this.resetShape();
+    this.command({ kind: 'tactics', team, tactics: t });
+  }
+  command(command: TacticalCommand) {
+    const s = this.state,
+      c = structuredClone(command);
+    if (!['ready', 'halfTime', 'paused'].includes(s.phase))
+      throw new Error('Pause the match to change tactics');
+    if (c.team !== 0 && c.team !== 1) throw new Error('Unknown team');
+    if (c.kind === 'tactics') {
+      validateTactics(c.tactics);
+      s.teams[c.team].tactics = { ...c.tactics };
+      for (const p of s.players.filter((p) => p.team === c.team)) {
+        p.role = roleFor(c.tactics.formation, p.slot);
+        if (!ROLES[p.roleId].positions.includes(p.role))
+          Object.assign(p, defaultAssignment(p.role));
+      }
+    } else if (c.kind === 'assignment') {
+      const p = s.players.find((p) => p.team === c.team && p.id === c.player);
+      if (
+        !p ||
+        !Number.isInteger(c.slot) ||
+        c.slot < 0 ||
+        c.slot > 10 ||
+        p.keeper !== (c.slot === 0)
+      )
+        throw new Error('Invalid position assignment');
+      const position = roleFor(s.teams[c.team].tactics.formation, c.slot);
+      validateRole(position, c.roleId, c.duty);
+      const displaced = s.players.find((q) => q.team === c.team && q.slot === c.slot)!;
+      if (displaced !== p) {
+        displaced.slot = p.slot;
+        displaced.role = roleFor(s.teams[c.team].tactics.formation, displaced.slot);
+        if (!ROLES[displaced.roleId].positions.includes(displaced.role))
+          Object.assign(displaced, defaultAssignment(displaced.role));
+      }
+      Object.assign(p, { slot: c.slot, role: position, roleId: c.roleId, duty: c.duty });
+    } else throw new Error('Unknown tactical command');
+    s.commands.push({ tick: s.tick, sequence: s.commands.length, command: c });
+    record(s, { kind: 'tactics', team: c.team, command: c });
+    for (const p of s.players) p.decisionAt = 0;
+    if (s.phase === 'ready') this.resetShape();
   }
   snapshot(): MatchState {
     return structuredClone(this.state);
@@ -118,7 +173,12 @@ export class Match {
   }
   private queueRestart(kind: Restart['kind'], team: TeamId, pos: Vec) {
     const s = this.state;
-    s.restart = { kind, team, pos: { ...pos }, ticks: kind === 'kickoff' ? 25 : 18 };
+    s.restart = {
+      kind,
+      team,
+      pos: { ...pos },
+      ticks: kind === 'kickoff' ? 65 : kind === 'throwIn' ? 75 : 100,
+    };
     s.ball = {
       pos: { ...pos },
       owner: null,
@@ -149,6 +209,12 @@ export class Match {
   private giveBall(p: Player) {
     const s = this.state;
     if (s.possession !== p.team) {
+      if (!s.restart)
+        record(s, {
+          kind: 'turnover',
+          team: s.possession,
+          player: s.players.find((q) => q.id === s.ball.lastTouch && q.team === s.possession)?.id,
+        });
       s.possession = p.team;
       s.possessionChangedAt = s.time;
     }
@@ -160,6 +226,7 @@ export class Match {
       flight: null,
     };
     p.possessionSince = s.time;
+    p.control = clamp(0.45 + p.attributes.firstTouch * 0.005, 0, 1);
     p.decisionAt = 0;
   }
   private tick() {
@@ -171,10 +238,14 @@ export class Match {
       if (s.restart.ticks <= 0) this.takeRestart();
     } else {
       s.stats[s.possession].possessionTicks++;
+      const needsPlan = s.players.some(
+        (p) => s.tick >= p.decisionAt || (p.keeper && s.ball.flight?.kind === 'shot'),
+      );
+      const plans = needsPlan ? [organize(s, 0), organize(s, 1)] : [];
       // Evaluate all agents against the same pre-movement positions (no in-loop movement bias).
       for (const p of s.players)
         if (s.tick >= p.decisionAt || (p.keeper && s.ball.flight?.kind === 'shot')) {
-          p.choices = evaluate(s, p);
+          p.choices = evaluate(s, p, plans[p.team]);
           p.action = p.choices[0].action;
           p.target = p.choices[0].target;
           p.decisionAt = s.tick + 5;
@@ -183,10 +254,11 @@ export class Match {
       const owner = s.players.find((p) => p.id === s.ball.owner);
       if (owner) {
         s.ball.pos = { ...owner.pos };
+        owner.control = clamp(owner.control + DT * (0.4 + owner.attributes.firstTouch * 0.005));
         this.challenge(owner);
         if (
           s.ball.owner === owner.id &&
-          s.time - owner.possessionSince > 0.65 + (100 - s.teams[owner.team].tactics.tempo) * 0.018
+          s.time - owner.possessionSince > 1.2 + (100 - s.teams[owner.team].tactics.tempo) * 0.045
         )
           this.execute(owner);
       } else this.moveBall();
@@ -206,19 +278,20 @@ export class Match {
     const s = this.state;
     // A kick target is not a running destination: plant before passing/shooting.
     const planting = s.ball.owner === p.id && (p.action === 'pass' || p.action === 'shoot');
-    const dx = planting ? 0 : p.target.x - p.pos.x,
-      dy = planting ? 0 : p.target.y - p.pos.y,
+    const movementTarget = separatedTarget(s, p, p.target);
+    const dx = planting ? 0 : movementTarget.x - p.pos.x,
+      dy = planting ? 0 : movementTarget.y - p.pos.y,
       d = Math.hypot(dx, dy);
     const effort =
-      p.action === 'press' || p.action === 'run' || p.action === 'recover' || p.keeper ? 1 : 0.68;
+      p.action === 'press' || p.action === 'run' || p.action === 'recover' || p.keeper ? 1 : 0.5;
     const speed =
       (4.0 + p.attributes.pace * 0.035) *
       (0.65 + p.energy * 0.35) *
       effort *
       (s.ball.owner === p.id ? 0.82 : 1);
     const desired = {
-      x: d > 0.05 ? (dx / d) * Math.min(speed, d / DT) : 0,
-      y: d > 0.05 ? (dy / d) * Math.min(speed, d / DT) : 0,
+      x: d > 0.05 ? (dx / d) * Math.min(speed, d * 1.8) : 0,
+      y: d > 0.05 ? (dy / d) * Math.min(speed, d * 1.8) : 0,
     };
     const accel = (2 + p.attributes.acceleration * 0.045) * DT;
     const vx = desired.x - p.velocity.x,
@@ -234,39 +307,61 @@ export class Match {
     if (travelled > 0.001) p.facing = Math.atan2(p.velocity.y, p.velocity.x);
     s.playerStats[p.id].distance += travelled;
     if (p.action === 'press') s.playerStats[p.id].pressSeconds += DT;
+    const actualSpeed = travelled / DT;
     const drain =
-      travelled *
-      (0.000014 + (100 - p.attributes.stamina) * 0.00000022) *
-      (p.action === 'press' ? 2.2 : 1);
-    p.energy = clamp(p.energy - drain + (travelled < 0.07 ? 0.000012 : 0), 0.25, 1);
+      travelled * (0.000018 + (100 - p.attributes.stamina) * 0.00000024) +
+      DT * Math.max(0, actualSpeed - 3) ** 2 * 0.000018 +
+      (p.action === 'press' ? DT * 0.00013 : 0);
+    p.energy = clamp(p.energy - drain + (actualSpeed < 0.5 ? DT * 0.000014 : 0), 0.15, 1);
   }
   private challenge(owner: Player) {
     const s = this.state;
+    if (s.time - owner.possessionSince < 0.7) return;
     const challengers = s.players
       .filter(
         (p) =>
           p.team !== owner.team &&
-          distance(p.pos, owner.pos) < (p.keeper ? 2.6 : 1.6) &&
-          s.tick >= p.challengeAt,
+          s.tick >= p.challengeAt &&
+          s.tick >= p.regainAt &&
+          distance(p.pos, owner.pos) < (p.keeper ? 2.2 : 1.65),
       )
       .sort((a, b) => distance(a.pos, owner.pos) - distance(b.pos, owner.pos));
     for (const p of challengers) {
-      p.challengeAt = s.tick + 12;
-      const win = p.keeper
-        ? clamp(0.35 + (p.attributes.reflexes + p.attributes.handling) * 0.002, 0.35, 0.85)
-        : clamp(
-            0.28 +
-              (p.attributes.tackling +
-                p.attributes.aggression -
-                owner.attributes.dribbling -
-                owner.attributes.composure) *
-                0.003,
-            0.08,
-            0.65,
-          );
+      const dx = p.pos.x - owner.pos.x,
+        dy = p.pos.y - owner.pos.y,
+        d = Math.hypot(dx, dy) || 1;
+      const approach = (Math.cos(owner.facing) * dx + Math.sin(owner.facing) * dy) / d;
+      const relativeSpeed = Math.hypot(
+        p.velocity.x - owner.velocity.x,
+        p.velocity.y - owner.velocity.y,
+      );
+      const timing = clamp(1 - relativeSpeed / 12, 0.15, 1);
+      const exposed = 1 - owner.control;
+      const hazard =
+        (0.05 + p.attributes.aggression * 0.001 + exposed * 0.4) *
+        timing *
+        (approach < -0.4 ? 0.4 : 1);
+      if (this.random.next() > hazard * DT) continue;
+      p.challengeAt = s.tick + 28;
+      record(s, { kind: 'tackleAttempt', team: p.team, player: p.id, target: owner.id });
+      const skill = p.keeper
+        ? (p.attributes.reflexes + p.attributes.handling) / 2
+        : p.attributes.tackling;
+      const win = clamp(
+        0.42 +
+          (skill - owner.attributes.dribbling) * 0.006 +
+          exposed * 0.3 +
+          approach * 0.08 +
+          timing * 0.12,
+        0.08,
+        0.88,
+      );
       if (this.random.next() < win) {
+        owner.regainAt = s.tick + 22;
+        owner.challengeAt = s.tick + 22;
         record(s, { kind: 'tackle', team: p.team, player: p.id, target: owner.id });
         this.giveBall(p);
+        p.control = 0.55;
         return;
       }
     }
@@ -276,32 +371,37 @@ export class Match {
     if (!c || c.action === 'dribble' || !['pass', 'shoot'].includes(c.action)) return;
     const s = this.state,
       shot = c.action === 'shoot';
-    const pressure = clamp(
-      (5 -
-        Math.min(
-          ...s.players.filter((q) => q.team !== p.team).map((q) => distance(q.pos, p.pos)),
-        )) /
-        5,
-    );
-    let target = { ...c.target };
-    // Choice targets are clamped to the pitch; shots must cross the goal line.
+    const stress = pressure(s, p),
+      chance = shot ? shotOpportunity(s, p) : null;
+    const receiver = s.players.find((q) => q.id === c.receiver);
+    const option = !shot && receiver ? passOption(s, p, receiver) : null;
+    let target = option ? { ...option.target } : { ...c.target };
     if (shot) {
       target.x = direction(p.team, s.half) === 1 ? 106 : -1;
-      target.y =
-        34 +
-        this.random.signed() *
-          (2.2 +
-            (100 - p.attributes.finishing) * 0.1 +
-            pressure * (100 - p.attributes.composure) * 0.04);
-    } else {
-      const error = (100 - p.attributes.passing + 100 - p.attributes.technique) / 200;
-      target.x += this.random.signed() * error * 4;
-      target.y += this.random.signed() * error * 4;
+      const keeper = chance!.keeper;
+      // Aim away from goalkeeper, then apply angular execution error, increasing with range/pressure.
+      const side =
+        Math.abs(keeper.pos.y - 34) > 0.5 ? Math.sign(34 - keeper.pos.y) : p.number % 2 ? 1 : -1;
+      const aim = 34 + side * 2.3;
+      const angularError =
+        0.045 +
+        (100 - p.attributes.finishing) * 0.002 +
+        stress * (100 - p.attributes.composure) * 0.0015;
+      target.y = aim + this.random.normal() * angularError * chance!.distance;
+    } else if (option) {
+      const angle = Math.atan2(target.y - p.pos.y, target.x - p.pos.x);
+      const error =
+        (0.003 + (200 - p.attributes.passing - p.attributes.technique) * 0.00016) *
+        (1 + option.difficulty + stress);
+      const theta = angle + this.random.signed() * error;
+      const length =
+        distance(p.pos, target) * (1 + this.random.signed() * 0.018 * (1 + option.difficulty));
+      target = { x: p.pos.x + Math.cos(theta) * length, y: p.pos.y + Math.sin(theta) * length };
     }
     const dx = target.x - p.pos.x,
       dy = target.y - p.pos.y,
       d = Math.hypot(dx, dy) || 1;
-    const speed = shot ? 22 + p.attributes.shotPower * 0.12 : 12 + p.attributes.passing * 0.06;
+    const speed = shot ? 19 + p.attributes.shotPower * 0.13 : (option?.speed ?? 16);
     const goalX = direction(p.team, s.half) === 1 ? 105 : 0;
     const crossingY = p.pos.y + ((goalX - p.pos.x) * dy) / dx;
     const onTarget = shot && Math.abs(crossingY - 34) <= FIELD.goalHalf;
@@ -312,10 +412,14 @@ export class Match {
       lastTouch: p.id,
       flight: {
         kind: shot ? 'shot' : 'pass',
+        eventId: s.events.length,
         kicker: p.id,
         team: p.team,
         age: 0,
         intended: c.receiver,
+        destination: target,
+        difficulty: option?.difficulty,
+        xg: chance?.xg,
         onTarget,
       },
     };
@@ -325,6 +429,9 @@ export class Match {
       player: p.id,
       target: c.receiver,
       onTarget: shot ? onTarget : undefined,
+      distance: option?.distance ?? chance?.distance,
+      difficulty: option?.difficulty,
+      xg: chance?.xg,
     });
     p.decisionAt = 0;
   }
@@ -354,7 +461,7 @@ export class Match {
       .filter((p) => !(p.id === b.lastTouch && (b.flight?.age ?? 1) < 0.55))
       .filter(
         (p) =>
-          segmentDistance(p.pos, old, end) < (p.keeper ? 1.0 + p.attributes.reach * 0.009 : 0.8),
+          segmentDistance(p.pos, old, end) < (p.keeper ? 1.0 + p.attributes.reach * 0.014 : 0.9),
       )
       .sort((a, c) => distance(a.pos, old) - distance(c.pos, old));
     for (const p of candidates) {
@@ -368,7 +475,7 @@ export class Match {
               0.15,
               0.97,
             )
-          : 0.32;
+          : clamp(0.35 + p.attributes.awareness * 0.004, 0, 0.8);
         if (this.random.next() > prob) continue;
         record(s, { kind: p.keeper ? 'save' : 'block', team: p.team, player: p.id });
         if (p.keeper && this.random.next() > p.attributes.handling / 100) {
@@ -385,7 +492,15 @@ export class Match {
       const speed = Math.hypot(b.velocity.x, b.velocity.y);
       if (
         this.random.next() >
-        clamp(0.7 + p.attributes.firstTouch * 0.003 - speed * 0.008, 0.35, 0.98)
+        clamp(
+          0.83 +
+            p.attributes.firstTouch * 0.0017 -
+            Math.max(0, speed - 18) * 0.01 -
+            pressure(s, p) * 0.1 -
+            (b.flight?.difficulty ?? 0.2) * 0.045,
+          0.45,
+          0.985,
+        )
       ) {
         record(s, { kind: 'miscontrol', team: p.team, player: p.id });
         b.pos = { ...p.pos };
@@ -400,7 +515,13 @@ export class Match {
       }
       if (b.flight?.kind === 'pass') {
         if (p.team === b.flight.team && p.id !== b.flight.kicker)
-          record(s, { kind: 'passComplete', team: p.team, player: b.flight.kicker, target: p.id });
+          record(s, {
+            kind: 'passComplete',
+            team: p.team,
+            player: b.flight.kicker,
+            target: p.id,
+            relatedEvent: b.flight.eventId,
+          });
         else if (p.team !== b.flight.team)
           record(s, { kind: 'interception', team: p.team, player: p.id });
       }
@@ -412,7 +533,7 @@ export class Match {
       this.boundary(b, hit.axis, hit.value);
       return;
     }
-    const friction = b.flight?.kind === 'shot' ? 0.996 : 0.981;
+    const friction = b.flight?.kind === 'shot' ? 0.997 : 0.992;
     b.velocity.x *= friction;
     b.velocity.y *= friction;
   }

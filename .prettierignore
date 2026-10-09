@@ -4,3 +4,4 @@ test-results
 playwright-report
 package-lock.json
 docs/paired-simulations.json
+docs/stage-2a/*.partial.json

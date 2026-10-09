@@ -27,6 +27,10 @@ export function describe(e: MatchEvent, s: MatchState) {
       return 'İlk yarı sona erdi. Taktik müdahale zamanı.';
     case 'fullTime':
       return 'Son düdük. Maç tamamlandı.';
+    case 'tackleAttempt':
+      return `${name} müdahale deniyor.`;
+    case 'turnover':
+      return `${name} topu kaybetti.`;
     case 'tackle':
       return `${name} müdahaleyle topu kazandı.`;
     case 'interception':

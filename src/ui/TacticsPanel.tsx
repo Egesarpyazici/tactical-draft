@@ -90,7 +90,7 @@ export function TacticsPanel({
       <p className="muted small">
         {editable
           ? 'Değişiklikler motorun konum ve karar hesaplarına uygulanır.'
-          : 'Taktikler devre arasında yeniden düzenlenebilir.'}
+          : 'Maçı duraklatarak taktik ve oyuncu rollerini düzenleyebilirsiniz.'}
       </p>
     </section>
   );

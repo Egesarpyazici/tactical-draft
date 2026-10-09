@@ -969,3 +969,31 @@ footer input {
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+.role-editor {
+  border-top: 1px solid var(--border);
+  padding-top: 8px;
+  margin-bottom: 16px;
+}
+.role-editor h4 {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--lime);
+}
+.role-editor .select-label {
+  display: block;
+}
+.role-editor select {
+  display: block;
+  width: 100%;
+  margin-top: 7px;
+}
+.role-editor .attribute-grid {
+  grid-template-columns: 1fr;
+}
+.role-editor .small {
+  line-height: 1.7;
+}
+.stats {
+  min-height: 360px;
+}

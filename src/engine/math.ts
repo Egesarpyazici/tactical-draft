@@ -22,6 +22,11 @@ export class Random {
     t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
     return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
   }
+  normal() {
+    return (
+      Math.sqrt(-2 * Math.log(Math.max(1e-12, this.next()))) * Math.cos(2 * Math.PI * this.next())
+    );
+  }
   signed() {
     return this.next() * 2 - 1;
   }

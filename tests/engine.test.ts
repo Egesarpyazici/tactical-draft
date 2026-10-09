@@ -207,7 +207,7 @@ describe('causal tactical behaviour', () => {
         if (pressing === 5) low += work;
         else high += work;
       }
-    expect(high).toBeGreaterThan(low * 2);
+    expect(high).toBeGreaterThan(low); // Single primary presser: coordinated workload, not a swarm multiplier.
   }, 15000);
   it.each(['4-3-3', '4-2-3-1', '4-4-2', '3-5-2'] as const)(
     'supports formation %s without invalid positions',
@@ -270,7 +270,7 @@ describe('ball physics and restarts (controlled fixtures)', () => {
     };
     m.step();
     expect(m.state.restart).toMatchObject({ kind: 'throwIn', team: 1 });
-    m.step(18);
+    m.step(m.state.restart!.ticks);
     expect(m.state.ball.owner).toMatch(/^1-/);
     expect(m.state.events.at(-1)?.kind).toBe('throwIn');
   });

@@ -1,0 +1,11 @@
+{
+  "seeds": "1-100",
+  "description": "Shot at tick 1, all outfield opponents away from corridor, keeper at (103.5,34), simulate 40 ticks; finishing varies without changing other attributes. No target goal count.",
+  "rows": [
+    { "x": 94, "y": 34, "finishing": 70, "goals": 21, "onTarget": 95 },
+    { "x": 80, "y": 34, "finishing": 70, "goals": 7, "onTarget": 75 },
+    { "x": 94, "y": 54, "finishing": 70, "goals": 9, "onTarget": 87 },
+    { "x": 94, "y": 34, "finishing": 40, "goals": 15, "onTarget": 82 },
+    { "x": 94, "y": 34, "finishing": 95, "goals": 13, "onTarget": 99 }
+  ]
+}

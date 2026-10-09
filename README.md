@@ -1,8 +1,8 @@
 # Tactical Draft
 
-Kurgusal iki takımın 90 dakikalık maçını oynatan, React + TypeScript + Vite / Phaser 3 tabanlı **yerel geliştirme alfası**. Sonuç baştan seçilmez: top hareketi, bireysel kararlar, müdahaleler ve kale çizgisini geçişler skor üretir.
+Kurgusal iki takımın 90 dakikalık maçını oynatan, React + TypeScript + Vite / Phaser 3 tabanlı **Aşama 2A yerel geliştirme alfası**. Sonuç baştan seçilmez: top hareketi, bireysel kararlar, müdahaleler ve kale çizgisini geçişler skor üretir.
 
-Bu sürüm test edilebilir bir motor temeli ve çalışan maç ekranıdır. Profesyonel futbol istatistiklerine kalibre edilmiş, rekabetçi dengesi doğrulanmış veya çok oyunculu bir ürün değildir. Gol ve top kaybı oranlarının gerçekçilik çalışması sonraki motor aşamasının önceliğidir.
+Bu sürüm test edilebilir bir motor temeli ve çalışan maç ekranıdır. Profesyonel futbol istatistiklerine kalibre edilmiş, rekabetçi dengesi doğrulanmış veya çok oyunculu bir ürün değildir. Takım organizasyonu, pas karşılama, kontrollü müdahale, 19 oyuncu rolü ve maç içi taktik komutları uygulanmıştır. Kalan gerçekçilik farkları Aşama 2A raporunda açıklanır.
 
 ## Çalıştırma
 
@@ -13,12 +13,13 @@ npm ci
 npm run dev
 ```
 
-Vite'nin gösterdiği yerel adresi tarayıcıda açın. Maç öncesi her iki takımın taktiklerini seçin, **Maçı başlat** düğmesine basın. İzleme hızları 1×–120×; 120× hızda yaklaşık 45 saniye aktif izleme süresi ve ayrıca devre arası gerekir. Tarayıcı yavaşsa görüntü/simülasyon duvar saati hızından geri kalabilir; motor adımları atlanmaz. Devre arasında değişiklik yapıp ikinci yarıyı başlatın. Maç sonunda skor, takım/oyuncu istatistikleri ve JSON çıktısı kullanılabilir.
+Vite'nin gösterdiği yerel adresi tarayıcıda açın. Maç öncesi her iki takımın taktiklerini seçin, **Maçı başlat** düğmesine basın. İzleme hızları 1×–120×; 120× hızda yaklaşık 45 saniye aktif izleme süresi ve ayrıca devre arası gerekir. Tarayıcı yavaşsa görüntü/simülasyon duvar saati hızından geri kalabilir; motor adımları atlanmaz. Maç sırasında **Duraklat** ile formasyon, oyuncu mevki/rol/görevi ve takım talimatlarını değiştirip devam edebilirsiniz. Komutlar simülasyon tick'iyle kaydedilir, canlı konumlar sıfırlanmaz. Devre arasında ikinci yarıyı ayrıca başlatın. Maç sonunda skor, takım/oyuncu istatistikleri ve JSON çıktısı kullanılabilir.
 
 ```sh
 npm test                      # motor, fizik, taktik ve deterministik tam maç testleri
 npm run build                 # TypeScript kontrolü + üretim paketi
 npm run simulate -- 12         # aynı 12 tohumda düşük/yüksek pres: 24 maç
+npm run benchmark -- /tmp/benchmark.json 4 1  # altı senaryo × dört tohum
 npm run format:check
 npm run test:e2e               # Chromium ile gerçek tarayıcı testi
 ```
@@ -29,11 +30,14 @@ Tarayıcı testi varsayılan `/usr/bin/chromium` kullanır. Başka sistemlerde `
 
 - 22 farklı kurgusal futbolcu, sürekli 105 × 68 m saha, 100 ms sabit motor adımı.
 - 4-3-3, 4-2-3-1, 4-4-2, 3-5-2; sekiz taktik parametresi ve diziliş rolleri.
-- Açıklanabilir fayda puanları, topsuz destek/koşu, markaj, pas açısı kapatma, pres.
+- Ortak savunma hatları, tekil markaj paylaşımı, birincil/destek baskısı ve oyuncu ayrışması.
+- 19 davranış profili, mevkiye uygun görevler ve açıklanabilir özellik uyumu.
+- Açıklanabilir fayda puanları, topsuz destek/koşu, pas açısı oluşturma ve baskı.
 - Pas, ilk kontrol, top sürme, müdahale, şut, kaleci yakalama/sektirme ve fiziksel gol geçişi.
 - Başlama, taç, köşe vuruşu, kale vuruşu; otomatik devre arası ve 90:00 bitiş.
 - Motor verisini gösteren Phaser saha, hız/duraklatma, kadro ve karar inceleme panelleri.
-- Tam maç olayları, oyuncu mesafe/pres süresi, takım istatistikleri ve yerel JSON indirme.
+- Tam maç olayları, müdahale denemeleri/başarıları, oyuncu mesafe/pres süresi ve JSON v2 indirme.
+- Başlangıç girdileri ve tick sıralı komutlardan deterministik yeniden üretim (`replayMatch`).
 
 **Henüz yok:** ofsayt, faul, kart, penaltı, serbest vuruş, hava topu/üçüncü eksen, oyuncu değişikliği, sakatlık, uzatma süresi, draft, çevrim içi oda, kalıcı hesap/veri. Yeniden başlatmalar basitleştirilmiştir; tam futbol kural seti uygulanmaz. Oyun içi açıklama da bu eksikleri belirtir.
 
@@ -52,7 +56,9 @@ Tarayıcı testi varsayılan `/usr/bin/chromium` kullanır. Başka sistemlerde `
 | `tests/`                  | Vitest motor testleri ve Playwright tarayıcı testleri |
 | `docs/`                   | Mimari, doğrulama raporu ve ham çoklu maç çıktısı     |
 
-[Mimari ve özellik etkileri](docs/ARCHITECTURE.md) · [Doğrulama ve teknik eksikler](docs/VALIDATION.md)
+[Aşama 2A tasarım ve rol kapsamı](docs/stage-2a/DESIGN.md) · [Karşılaştırmalı doğrulama](docs/stage-2a/REPORT.md) · [Gerçek futbol referansları](docs/stage-2a/REFERENCES.md)
+
+İlk sürümün tarihsel kayıtları: [mimari](docs/ARCHITECTURE.md), [doğrulama](docs/VALIDATION.md). Bunlar v0.1 içindir; güncel davranış için Aşama 2A belgelerini kullanın.
 
 ## Barındırma ve sonraki aşama
 

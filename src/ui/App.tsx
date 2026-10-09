@@ -3,6 +3,7 @@ import { Match } from '../engine/match';
 import { createTeams } from '../data/teams';
 import type { TeamId, Tactics } from '../engine/types';
 import { Pitch } from './Pitch';
+import { RoleEditor } from './RoleEditor';
 import { TacticsPanel } from './TacticsPanel';
 import { clock, describe } from './commentary';
 const actions: Record<string, string> = {
@@ -60,7 +61,9 @@ export function App() {
   const start = () => {
     if (s.phase === 'ready') engine.current.start();
     else if (s.phase === 'halfTime') engine.current.resumeHalf();
-    setRunning(!running);
+    else if (s.phase === 'playing') engine.current.pause();
+    else if (s.phase === 'paused') engine.current.resume();
+    setRunning(engine.current.state.phase === 'playing');
     sync();
   };
   const reset = () => {
@@ -85,11 +88,13 @@ export function App() {
   const player = s.players.find((p) => p.id === selected),
     pstats = player ? s.playerStats[player.id] : null;
   const keyEvents = s.events
-    .filter((e) => !['pass', 'passComplete', 'miscontrol'].includes(e.kind))
+    .filter(
+      (e) => !['pass', 'passComplete', 'miscontrol', 'tackleAttempt', 'turnover'].includes(e.kind),
+    )
     .slice(-50)
     .reverse();
   const exportMatch = () => {
-    const blob = new Blob([JSON.stringify({ version: 1, ...engine.current.snapshot() }, null, 2)], {
+    const blob = new Blob([JSON.stringify({ version: 2, ...engine.current.snapshot() }, null, 2)], {
       type: 'application/json',
     });
     const url = URL.createObjectURL(blob),
@@ -119,7 +124,7 @@ export function App() {
           </div>
           <div className="header-meta">
             <span className="status-dot" /> YEREL SİMÜLASYON{' '}
-            <span className="version">ALPHA 0.1</span>
+            <span className="version">ALPHA 0.2A</span>
           </div>
         </header>
         <main>
@@ -187,7 +192,14 @@ export function App() {
                   </span>
                   <span className="muted">105 × 68 m</span>
                 </div>
-                <Pitch state={s} selected={selected} onSelect={setSelected} />
+                <Pitch
+                  state={s}
+                  selected={selected}
+                  onSelect={(id) => {
+                    setSelected(id);
+                    setTeam(s.players.find((p) => p.id === id)!.team);
+                  }}
+                />
                 <div className="pitch-legend">
                   <span>
                     <i className="lime" /> ATL
@@ -263,7 +275,9 @@ export function App() {
                       ['shotsOnTarget', 'Kaleyi bulan şut'],
                       ['passes', 'Pas denemesi'],
                       ['completedPasses', 'Tamamlanan pas'],
+                      ['tackleAttempts', 'Müdahale girişimi'],
                       ['tackles', 'Başarılı müdahale'],
+                      ['turnovers', 'Top kaybı'],
                       ['saves', 'Kaleci müdahalesi'],
                       ['corners', 'Köşe vuruşu'],
                     ] as const
@@ -336,7 +350,7 @@ export function App() {
               </div>
               <TacticsPanel
                 team={s.teams[team]}
-                editable={s.phase === 'ready' || s.phase === 'halfTime'}
+                editable={s.phase === 'ready' || s.phase === 'halfTime' || s.phase === 'paused'}
                 onChange={setTactics}
               />
               {player && pstats && (
@@ -367,6 +381,15 @@ export function App() {
                       <b>{pstats.shots}</b> şut
                     </span>
                   </div>
+                  <RoleEditor
+                    state={s}
+                    p={player}
+                    editable={s.phase === 'ready' || s.phase === 'paused' || s.phase === 'halfTime'}
+                    onCommand={(c) => {
+                      engine.current.command(c);
+                      sync();
+                    }}
+                  />
                   <details>
                     <summary>Özellikler ve karar gerekçesi</summary>
                     <div className="attribute-grid">
@@ -419,7 +442,7 @@ export function App() {
             {error && <span role="alert">{error}</span>}
           </footer>
           <p className="scope-note">
-            Motor v0.1 · Yerel tek kullanıcı · Ofsayt, faul, kart, oyuncu değişikliği ve hava topu
+            Motor v0.2A · Yerel tek kullanıcı · Ofsayt, faul, kart, oyuncu değişikliği ve hava topu
             henüz uygulanmadı. Bu sürüm rekabetçi denge iddiası taşımaz.
           </p>
         </main>

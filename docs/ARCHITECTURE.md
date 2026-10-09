@@ -1,5 +1,7 @@
 # Motor mimarisi · v0.1
 
+> Tarihsel v0.1 kaydı. Güncel motor ve sınırlamalar için [Aşama 2A tasarımı](stage-2a/DESIGN.md) ve [raporu](stage-2a/REPORT.md) geçerlidir.
+
 ## Kararlar
 
 Motor `src/engine` içinde saf TypeScript'tir. React, Phaser, DOM, zamanlayıcı, ağ veya duvar saati kullanmaz. `Match.step(n)` sadece 100 ms'lik tam adımlar alır. React bir zaman biriktiricisiyle bu adımları çağırır; Phaser sonuçları okur ve hiçbir oyun kararı vermez. Yüksek görüntüleme hızı fizik adımını büyütmez. İlk karede negatif olabilecek animasyon zaman farkı sıfıra kırpılır.
