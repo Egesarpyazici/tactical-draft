@@ -1,0 +1,1516 @@
+{
+  "sourceCommit": "0ea95631a51cbf5f0aa83d7e551da6ac7e83417a",
+  "seedStart": 1,
+  "seeds": 4,
+  "matches": 24,
+  "attemptNote": "Before stage 2A, attempts reconstructed from challengeAt=tick+12; after stage 2A, explicit events. Turnovers exclude restarts; rapid = opposing acquisitions within 2 seconds; closePairs = same-team pairs within 2m, sampled every second.",
+  "summaries": {
+    "balanced": {
+      "matches": 4,
+      "meanGoals": 13.25,
+      "medianGoals": 13,
+      "goalDistribution": {
+        "8": 1,
+        "12": 1,
+        "14": 1,
+        "19": 1
+      },
+      "homeGoalDifference": -1.75,
+      "closePairs": 0.5640862753859912,
+      "rapidTurnovers": 486,
+      "home": {
+        "passCompletion": 0.3298623745799741,
+        "passes": 424.25,
+        "tackles": 301.5,
+        "attempts": 968,
+        "turnovers": 471,
+        "shots": 12.75,
+        "onTarget": 9.25,
+        "possession": 0.48515458618950746,
+        "distanceKm": 195.79194008042418,
+        "energy": 0.7245882710174498,
+        "pressSeconds": 1137.6749999999784
+      }
+    },
+    "low-press": {
+      "matches": 4,
+      "meanGoals": 8.75,
+      "medianGoals": 9,
+      "goalDistribution": {
+        "7": 1,
+        "8": 1,
+        "10": 2
+      },
+      "homeGoalDifference": -1.25,
+      "closePairs": 0.54818847701994,
+      "rapidTurnovers": 395,
+      "home": {
+        "passCompletion": 0.3215606436263005,
+        "passes": 415.25,
+        "tackles": 211,
+        "attempts": 658.75,
+        "turnovers": 425.75,
+        "shots": 8.75,
+        "onTarget": 5.5,
+        "possession": 0.4854558877511158,
+        "distanceKm": 196.46375493044684,
+        "energy": 0.7305302307289722,
+        "pressSeconds": 229.7750000000007
+      }
+    },
+    "high-press": {
+      "matches": 4,
+      "meanGoals": 13.25,
+      "medianGoals": 13.5,
+      "goalDistribution": {
+        "11": 1,
+        "13": 1,
+        "14": 1,
+        "15": 1
+      },
+      "homeGoalDifference": 0.75,
+      "closePairs": 0.6728887971427535,
+      "rapidTurnovers": 538.75,
+      "home": {
+        "passCompletion": 0.334949999489741,
+        "passes": 429.75,
+        "tackles": 339.75,
+        "attempts": 1047.25,
+        "turnovers": 492.75,
+        "shots": 14.5,
+        "onTarget": 9,
+        "possession": 0.49252953784061515,
+        "distanceKm": 195.72315559381596,
+        "energy": 0.7169952945599719,
+        "pressSeconds": 1944.9249999999433
+      }
+    },
+    "wide-352": {
+      "matches": 4,
+      "meanGoals": 14,
+      "medianGoals": 14,
+      "goalDistribution": {
+        "10": 1,
+        "13": 1,
+        "15": 1,
+        "18": 1
+      },
+      "homeGoalDifference": -4.5,
+      "closePairs": 0.5285844724957788,
+      "rapidTurnovers": 460,
+      "home": {
+        "passCompletion": 0.30454219455497994,
+        "passes": 416.5,
+        "tackles": 284.5,
+        "attempts": 902,
+        "turnovers": 458.75,
+        "shots": 19,
+        "onTarget": 11,
+        "possession": 0.4787873909330901,
+        "distanceKm": 197.48021287905516,
+        "energy": 0.7221706381604094,
+        "pressSeconds": 1109.8999999999796
+      }
+    },
+    "strong-home": {
+      "matches": 4,
+      "meanGoals": 14,
+      "medianGoals": 13.5,
+      "goalDistribution": {
+        "9": 1,
+        "13": 1,
+        "14": 1,
+        "20": 1
+      },
+      "homeGoalDifference": 9.5,
+      "closePairs": 0.517835718154424,
+      "rapidTurnovers": 400.75,
+      "home": {
+        "passCompletion": 0.3427823454085657,
+        "passes": 487,
+        "tackles": 282.75,
+        "attempts": 747.5,
+        "turnovers": 385.25,
+        "shots": 26,
+        "onTarget": 18.25,
+        "possession": 0.519298538155415,
+        "distanceKm": 208.00604542160113,
+        "energy": 0.7642326301434377,
+        "pressSeconds": 892.874999999987
+      }
+    },
+    "weak-home": {
+      "matches": 4,
+      "meanGoals": 18.5,
+      "medianGoals": 17.5,
+      "goalDistribution": {
+        "15": 1,
+        "17": 1,
+        "18": 1,
+        "24": 1
+      },
+      "homeGoalDifference": -16,
+      "closePairs": 0.5442466120660568,
+      "rapidTurnovers": 432,
+      "home": {
+        "passCompletion": 0.3018424925526185,
+        "passes": 358.25,
+        "tackles": 243,
+        "attempts": 1000.75,
+        "turnovers": 459,
+        "shots": 3.5,
+        "onTarget": 2,
+        "possession": 0.4540010813019124,
+        "distanceKm": 181.1444451464015,
+        "energy": 0.6973316032209874,
+        "pressSeconds": 1255.3499999999715
+      }
+    }
+  },
+  "rows": [
+    {
+      "seed": 1,
+      "scenario": "balanced",
+      "goals": 8,
+      "homeGoalDifference": -6,
+      "closePairs": 0.5385978731784167,
+      "rapidTurnovers": 511,
+      "team": [
+        {
+          "goals": 1,
+          "shots": 11,
+          "shotsOnTarget": 5,
+          "passes": 431,
+          "completedPasses": 146,
+          "tackles": 303,
+          "interceptions": 160,
+          "saves": 9,
+          "corners": 1,
+          "possessionTicks": 24503,
+          "passCompletion": 0.33874709976798145,
+          "observedTurnovers": 494,
+          "tackleAttempts": 1004,
+          "distanceKm": 195.223451392883,
+          "outfieldKm": [
+            18.76738738519303, 19.162026005725092, 18.808693940198868, 18.662871794771355,
+            20.03531058983057, 18.691488889319583, 18.717216043193773, 18.527405722988675,
+            18.51308745216556, 19.240456304181734
+          ],
+          "energy": 0.7257706872667755,
+          "pressSeconds": 1170.1999999999764
+        },
+        {
+          "goals": 7,
+          "shots": 20,
+          "shotsOnTarget": 14,
+          "passes": 484,
+          "completedPasses": 178,
+          "tackles": 321,
+          "interceptions": 147,
+          "saves": 3,
+          "corners": 0,
+          "possessionTicks": 26241,
+          "passCompletion": 0.3677685950413223,
+          "observedTurnovers": 500,
+          "tackleAttempts": 952,
+          "distanceKm": 197.2256891606607,
+          "outfieldKm": [
+            17.488947297417205, 18.050639160308844, 19.33968755929707, 18.744069049640732,
+            18.39382647774469, 20.061672665244746, 18.54847954648619, 20.09231809621696,
+            19.768798657747713, 20.19332378335942
+          ],
+          "energy": 0.7235685802976642,
+          "pressSeconds": 1203.4999999999739
+        }
+      ]
+    },
+    {
+      "seed": 1,
+      "scenario": "low-press",
+      "goals": 7,
+      "homeGoalDifference": -3,
+      "closePairs": 0.5325163075706661,
+      "rapidTurnovers": 352,
+      "team": [
+        {
+          "goals": 2,
+          "shots": 7,
+          "shotsOnTarget": 3,
+          "passes": 425,
+          "completedPasses": 140,
+          "tackles": 192,
+          "interceptions": 170,
+          "saves": 2,
+          "corners": 0,
+          "possessionTicks": 24500,
+          "passCompletion": 0.32941176470588235,
+          "observedTurnovers": 398,
+          "tackleAttempts": 589,
+          "distanceKm": 197.5190273270968,
+          "outfieldKm": [
+            18.974489745409585, 19.18854465577618, 18.92985703230427, 18.749931334785483,
+            20.51839058464942, 18.95692351419517, 18.942242675801293, 18.74368173432105,
+            18.719651393611908, 19.462405599362896
+          ],
+          "energy": 0.7273996888395186,
+          "pressSeconds": 204.8000000000004
+        },
+        {
+          "goals": 5,
+          "shots": 11,
+          "shotsOnTarget": 4,
+          "passes": 486,
+          "completedPasses": 159,
+          "tackles": 235,
+          "interceptions": 134,
+          "saves": 4,
+          "corners": 0,
+          "possessionTicks": 26053,
+          "passCompletion": 0.3271604938271605,
+          "observedTurnovers": 393,
+          "tackleAttempts": 802,
+          "distanceKm": 199.55789369269064,
+          "outfieldKm": [
+            17.663794989323456, 18.420191670485465, 19.23249546487913, 18.720612391839104,
+            18.65822250064987, 20.296916081729368, 18.881231022623894, 20.384840238446326,
+            19.98095826201537, 20.559169919885225
+          ],
+          "energy": 0.7157398464861185,
+          "pressSeconds": 1130.6999999999775
+        }
+      ]
+    },
+    {
+      "seed": 1,
+      "scenario": "high-press",
+      "goals": 11,
+      "homeGoalDifference": 3,
+      "closePairs": 0.6714200831847891,
+      "rapidTurnovers": 518,
+      "team": [
+        {
+          "goals": 7,
+          "shots": 12,
+          "shotsOnTarget": 8,
+          "passes": 434,
+          "completedPasses": 144,
+          "tackles": 323,
+          "interceptions": 139,
+          "saves": 6,
+          "corners": 0,
+          "possessionTicks": 24896,
+          "passCompletion": 0.3317972350230415,
+          "observedTurnovers": 489,
+          "tackleAttempts": 1058,
+          "distanceKm": 195.8191947105902,
+          "outfieldKm": [
+            18.883558107271774, 19.282112034509442, 18.72554297533318, 19.08133511948501,
+            20.059885610605427, 18.691595439126168, 18.77745751349172, 18.497841635892744,
+            18.359048664487357, 19.337696245520707
+          ],
+          "energy": 0.7168628281270011,
+          "pressSeconds": 1940.8999999999446
+        },
+        {
+          "goals": 4,
+          "shots": 19,
+          "shotsOnTarget": 10,
+          "passes": 428,
+          "completedPasses": 141,
+          "tackles": 324,
+          "interceptions": 136,
+          "saves": 6,
+          "corners": 0,
+          "possessionTicks": 25647,
+          "passCompletion": 0.3294392523364486,
+          "observedTurnovers": 493,
+          "tackleAttempts": 953,
+          "distanceKm": 197.84007617875037,
+          "outfieldKm": [
+            17.45429329536092, 18.060568354497757, 19.1564240984559, 18.897742728809064,
+            18.511070169282473, 20.223505804444933, 18.53068859372852, 20.197802656562647,
+            19.91757718676955, 20.27002361132906
+          ],
+          "energy": 0.7215485364597733,
+          "pressSeconds": 1147.399999999977
+        }
+      ]
+    },
+    {
+      "seed": 1,
+      "scenario": "wide-352",
+      "goals": 10,
+      "homeGoalDifference": -2,
+      "closePairs": 0.5612265084075173,
+      "rapidTurnovers": 488,
+      "team": [
+        {
+          "goals": 4,
+          "shots": 21,
+          "shotsOnTarget": 13,
+          "passes": 406,
+          "completedPasses": 123,
+          "tackles": 285,
+          "interceptions": 150,
+          "saves": 6,
+          "corners": 0,
+          "possessionTicks": 23543,
+          "passCompletion": 0.30295566502463056,
+          "observedTurnovers": 483,
+          "tackleAttempts": 928,
+          "distanceKm": 199.79361918048053,
+          "outfieldKm": [
+            19.623765156503918, 19.45785118929928, 18.945267694757906, 20.77471121283554,
+            20.306091540391645, 18.94407415316115, 18.96272333053348, 18.49431168249103,
+            18.339106796421454, 19.29355953629347
+          ],
+          "energy": 0.7163489084310016,
+          "pressSeconds": 1127.8999999999787
+        },
+        {
+          "goals": 6,
+          "shots": 19,
+          "shotsOnTarget": 10,
+          "passes": 471,
+          "completedPasses": 144,
+          "tackles": 297,
+          "interceptions": 150,
+          "saves": 11,
+          "corners": 1,
+          "possessionTicks": 26953,
+          "passCompletion": 0.3057324840764331,
+          "observedTurnovers": 467,
+          "tackleAttempts": 879,
+          "distanceKm": 195.42041413405113,
+          "outfieldKm": [
+            17.546370949685276, 17.877526252673047, 18.681199617121834, 18.886880004412486,
+            18.214442212189773, 19.72414657290816, 18.452616380199295, 20.243895194532325,
+            19.572223316814394, 19.981684639424564
+          ],
+          "energy": 0.7275835713384917,
+          "pressSeconds": 1087.8999999999794
+        }
+      ]
+    },
+    {
+      "seed": 1,
+      "scenario": "strong-home",
+      "goals": 13,
+      "homeGoalDifference": 13,
+      "closePairs": 0.509392486011191,
+      "rapidTurnovers": 392,
+      "team": [
+        {
+          "goals": 13,
+          "shots": 30,
+          "shotsOnTarget": 19,
+          "passes": 499,
+          "completedPasses": 174,
+          "tackles": 283,
+          "interceptions": 139,
+          "saves": 3,
+          "corners": 0,
+          "possessionTicks": 26313,
+          "passCompletion": 0.3486973947895792,
+          "observedTurnovers": 381,
+          "tackleAttempts": 694,
+          "distanceKm": 207.97909543731177,
+          "outfieldKm": [
+            19.964886013166637, 20.133342664724818, 19.84138412544244, 19.414436845350316,
+            21.652699416052396, 20.22240974072183, 20.233640618012924, 19.881321376214363,
+            19.927724795439048, 20.681245659275394
+          ],
+          "energy": 0.7649080785528741,
+          "pressSeconds": 855.6999999999879
+        },
+        {
+          "goals": 0,
+          "shots": 4,
+          "shotsOnTarget": 3,
+          "passes": 390,
+          "completedPasses": 130,
+          "tackles": 204,
+          "interceptions": 144,
+          "saves": 10,
+          "corners": 0,
+          "possessionTicks": 23784,
+          "passCompletion": 0.3333333333333333,
+          "observedTurnovers": 450,
+          "tackleAttempts": 993,
+          "distanceKm": 199.78756870488607,
+          "outfieldKm": [
+            17.64574060159661, 18.495680095864873, 19.36494325352246, 19.220509926579904,
+            18.33782709442636, 20.21276476691258, 18.671295406849907, 19.96269850235023,
+            19.923228317339376, 20.134035455065156
+          ],
+          "energy": 0.7151454612822965,
+          "pressSeconds": 1273.0999999999706
+        }
+      ]
+    },
+    {
+      "seed": 1,
+      "scenario": "weak-home",
+      "goals": 24,
+      "homeGoalDifference": -22,
+      "closePairs": 0.568100358422939,
+      "rapidTurnovers": 446,
+      "team": [
+        {
+          "goals": 1,
+          "shots": 3,
+          "shotsOnTarget": 2,
+          "passes": 347,
+          "completedPasses": 109,
+          "tackles": 239,
+          "interceptions": 123,
+          "saves": 7,
+          "corners": 0,
+          "possessionTicks": 22607,
+          "passCompletion": 0.31412103746397696,
+          "observedTurnovers": 470,
+          "tackleAttempts": 1040,
+          "distanceKm": 179.96831196187685,
+          "outfieldKm": [
+            17.732797301407004, 17.798853317816587, 17.24083179276844, 17.356636356067582,
+            18.2954384570342, 17.03521787170354, 16.875842089886675, 16.883228221813766,
+            16.606511529131957, 17.565757251561152
+          ],
+          "energy": 0.7002454617334161,
+          "pressSeconds": 1294.0999999999692
+        },
+        {
+          "goals": 23,
+          "shots": 31,
+          "shotsOnTarget": 22,
+          "passes": 494,
+          "completedPasses": 175,
+          "tackles": 321,
+          "interceptions": 118,
+          "saves": 1,
+          "corners": 0,
+          "possessionTicks": 27539,
+          "passCompletion": 0.354251012145749,
+          "observedTurnovers": 401,
+          "tackleAttempts": 790,
+          "distanceKm": 192.45426804370481,
+          "outfieldKm": [
+            16.906840430921424, 17.400996395285564, 18.327052803015906, 17.718273443568318,
+            18.060409556616495, 19.703820286825067, 18.40800096723678, 20.065143769140754,
+            19.52039066885133, 20.06674842335063
+          ],
+          "energy": 0.7354246794082737,
+          "pressSeconds": 1015.1999999999782
+        }
+      ]
+    },
+    {
+      "seed": 2,
+      "scenario": "balanced",
+      "goals": 19,
+      "homeGoalDifference": -1,
+      "closePairs": 0.5648295003965107,
+      "rapidTurnovers": 512,
+      "team": [
+        {
+          "goals": 9,
+          "shots": 12,
+          "shotsOnTarget": 10,
+          "passes": 429,
+          "completedPasses": 145,
+          "tackles": 322,
+          "interceptions": 147,
+          "saves": 8,
+          "corners": 0,
+          "possessionTicks": 24367,
+          "passCompletion": 0.337995337995338,
+          "observedTurnovers": 488,
+          "tackleAttempts": 999,
+          "distanceKm": 194.88898232659832,
+          "outfieldKm": [
+            18.980733821779125, 19.004437516295287, 18.78128942377616, 18.692653622180263,
+            20.061180506569762, 18.681929655220223, 18.529507808339247, 18.525631133807153,
+            18.462539172921737, 19.18841026693686
+          ],
+          "energy": 0.7256374942434143,
+          "pressSeconds": 1156.799999999977
+        },
+        {
+          "goals": 10,
+          "shots": 22,
+          "shotsOnTarget": 17,
+          "passes": 445,
+          "completedPasses": 146,
+          "tackles": 327,
+          "interceptions": 137,
+          "saves": 2,
+          "corners": 0,
+          "possessionTicks": 25994,
+          "passCompletion": 0.32808988764044944,
+          "observedTurnovers": 506,
+          "tackleAttempts": 961,
+          "distanceKm": 195.61744501690126,
+          "outfieldKm": [
+            17.15946209580018, 18.171300710042352, 19.118335067789033, 18.48379320351309,
+            18.21711912884701, 19.931707282364048, 18.4937804400503, 20.09893331486651,
+            19.80300576988318, 19.920995104246987
+          ],
+          "energy": 0.7267445088081671,
+          "pressSeconds": 1198.7999999999747
+        }
+      ]
+    },
+    {
+      "seed": 2,
+      "scenario": "low-press",
+      "goals": 10,
+      "homeGoalDifference": 0,
+      "closePairs": 0.5542406311637081,
+      "rapidTurnovers": 432,
+      "team": [
+        {
+          "goals": 5,
+          "shots": 9,
+          "shotsOnTarget": 7,
+          "passes": 424,
+          "completedPasses": 134,
+          "tackles": 230,
+          "interceptions": 184,
+          "saves": 3,
+          "corners": 1,
+          "possessionTicks": 24628,
+          "passCompletion": 0.3160377358490566,
+          "observedTurnovers": 453,
+          "tackleAttempts": 704,
+          "distanceKm": 195.31646379396815,
+          "outfieldKm": [
+            18.926072520492763, 18.91143298034506, 18.669829027252305, 18.404574005545378,
+            20.290035413265166, 18.896522567339602, 18.82523095473125, 18.47795766749142,
+            18.500234181481307, 19.23290184121736
+          ],
+          "energy": 0.7342977309765096,
+          "pressSeconds": 227.70000000000056
+        },
+        {
+          "goals": 5,
+          "shots": 9,
+          "shotsOnTarget": 6,
+          "passes": 524,
+          "completedPasses": 184,
+          "tackles": 274,
+          "interceptions": 145,
+          "saves": 5,
+          "corners": 0,
+          "possessionTicks": 26174,
+          "passCompletion": 0.3511450381679389,
+          "observedTurnovers": 454,
+          "tackleAttempts": 860,
+          "distanceKm": 197.49604401490723,
+          "outfieldKm": [
+            17.464179418892368, 18.01865881713452, 19.086248190348496, 18.763446537508916,
+            18.53217133539549, 20.207198796010495, 18.560353246765537, 20.15158449990765,
+            19.692616035122082, 20.1171136097202
+          ],
+          "energy": 0.7230919403560727,
+          "pressSeconds": 1137.299999999977
+        }
+      ]
+    },
+    {
+      "seed": 2,
+      "scenario": "high-press",
+      "goals": 15,
+      "homeGoalDifference": 1,
+      "closePairs": 0.6666003580664412,
+      "rapidTurnovers": 532,
+      "team": [
+        {
+          "goals": 8,
+          "shots": 16,
+          "shotsOnTarget": 9,
+          "passes": 430,
+          "completedPasses": 150,
+          "tackles": 333,
+          "interceptions": 143,
+          "saves": 2,
+          "corners": 2,
+          "possessionTicks": 25031,
+          "passCompletion": 0.3488372093023256,
+          "observedTurnovers": 480,
+          "tackleAttempts": 1018,
+          "distanceKm": 194.36552496254845,
+          "outfieldKm": [
+            18.573586803134667, 19.06350689022634, 18.509520621206658, 18.583423786296667,
+            20.254585210830275, 18.707924897052603, 18.551903808100953, 18.371105648089177,
+            18.30553200012694, 19.31948067682311
+          ],
+          "energy": 0.7202452379627522,
+          "pressSeconds": 1940.9999999999413
+        },
+        {
+          "goals": 7,
+          "shots": 13,
+          "shotsOnTarget": 8,
+          "passes": 441,
+          "completedPasses": 145,
+          "tackles": 324,
+          "interceptions": 126,
+          "saves": 4,
+          "corners": 1,
+          "possessionTicks": 25283,
+          "passCompletion": 0.3287981859410431,
+          "observedTurnovers": 505,
+          "tackleAttempts": 976,
+          "distanceKm": 196.29074644670322,
+          "outfieldKm": [
+            17.341977720895493, 17.958694972515886, 19.00033173533155, 18.43727681706351,
+            18.286753873237508, 19.936680316885113, 18.547816250084, 20.21012086542035,
+            19.746771853465138, 19.962382185915892
+          ],
+          "energy": 0.7253027540685492,
+          "pressSeconds": 1201.5999999999744
+        }
+      ]
+    },
+    {
+      "seed": 2,
+      "scenario": "wide-352",
+      "goals": 13,
+      "homeGoalDifference": -7,
+      "closePairs": 0.5102324657262071,
+      "rapidTurnovers": 503,
+      "team": [
+        {
+          "goals": 3,
+          "shots": 14,
+          "shotsOnTarget": 8,
+          "passes": 420,
+          "completedPasses": 122,
+          "tackles": 314,
+          "interceptions": 162,
+          "saves": 4,
+          "corners": 0,
+          "possessionTicks": 24400,
+          "passCompletion": 0.2904761904761905,
+          "observedTurnovers": 478,
+          "tackleAttempts": 927,
+          "distanceKm": 197.07985481774182,
+          "outfieldKm": [
+            19.47907133677393, 19.201566963070366, 18.71452685038353, 20.28018665107046,
+            20.00727187989468, 18.67118784295904, 18.63098070892385, 18.17201293648146,
+            18.131419813771437, 19.100673769020776
+          ],
+          "energy": 0.7241015460632764,
+          "pressSeconds": 1089.8999999999805
+        },
+        {
+          "goals": 10,
+          "shots": 12,
+          "shotsOnTarget": 8,
+          "passes": 456,
+          "completedPasses": 155,
+          "tackles": 298,
+          "interceptions": 145,
+          "saves": 5,
+          "corners": 1,
+          "possessionTicks": 25985,
+          "passCompletion": 0.3399122807017544,
+          "observedTurnovers": 503,
+          "tackleAttempts": 903,
+          "distanceKm": 196.28257276987668,
+          "outfieldKm": [
+            17.587800193630823, 17.91001657062551, 18.805997060518294, 19.06149417875468,
+            18.250327892231915, 20.021910480369286, 18.42242230847009, 20.033666159080084,
+            19.517435264167776, 20.0504362496767
+          ],
+          "energy": 0.726172981380795,
+          "pressSeconds": 1115.9999999999761
+        }
+      ]
+    },
+    {
+      "seed": 2,
+      "scenario": "strong-home",
+      "goals": 9,
+      "homeGoalDifference": 3,
+      "closePairs": 0.49179343474779824,
+      "rapidTurnovers": 391,
+      "team": [
+        {
+          "goals": 6,
+          "shots": 22,
+          "shotsOnTarget": 12,
+          "passes": 482,
+          "completedPasses": 159,
+          "tackles": 277,
+          "interceptions": 151,
+          "saves": 2,
+          "corners": 0,
+          "possessionTicks": 25716,
+          "passCompletion": 0.32987551867219916,
+          "observedTurnovers": 381,
+          "tackleAttempts": 747,
+          "distanceKm": 208.31350918781982,
+          "outfieldKm": [
+            20.07083333340017, 20.299064141888195, 19.857283366544156, 19.74374573607705,
+            21.501348037236962, 20.33285414574759, 20.40495164614285, 19.937324184828668,
+            19.915492959402904, 20.700921898312973
+          ],
+          "energy": 0.7621185559285436,
+          "pressSeconds": 878.5999999999879
+        },
+        {
+          "goals": 3,
+          "shots": 5,
+          "shotsOnTarget": 3,
+          "passes": 393,
+          "completedPasses": 124,
+          "tackles": 223,
+          "interceptions": 132,
+          "saves": 7,
+          "corners": 1,
+          "possessionTicks": 24265,
+          "passCompletion": 0.3155216284987277,
+          "observedTurnovers": 457,
+          "tackleAttempts": 959,
+          "distanceKm": 199.10532954504544,
+          "outfieldKm": [
+            17.502666079132876, 18.47089929262212, 19.4148016877664, 19.050064142812495,
+            18.393760147113696, 20.23792598775946, 18.68200221844138, 19.93191442836397,
+            19.931992717878398, 20.125536463416783
+          ],
+          "energy": 0.7164710935930917,
+          "pressSeconds": 1219.4999999999736
+        }
+      ]
+    },
+    {
+      "seed": 2,
+      "scenario": "weak-home",
+      "goals": 18,
+      "homeGoalDifference": -16,
+      "closePairs": 0.5097609561752988,
+      "rapidTurnovers": 444,
+      "team": [
+        {
+          "goals": 1,
+          "shots": 5,
+          "shotsOnTarget": 2,
+          "passes": 361,
+          "completedPasses": 96,
+          "tackles": 250,
+          "interceptions": 132,
+          "saves": 6,
+          "corners": 1,
+          "possessionTicks": 22751,
+          "passCompletion": 0.2659279778393352,
+          "observedTurnovers": 468,
+          "tackleAttempts": 996,
+          "distanceKm": 180.43876160949807,
+          "outfieldKm": [
+            17.747100293384268, 17.853429365338354, 17.422846752942622, 17.257585506179637,
+            18.482729269896417, 17.08451381468013, 16.941130713419675, 16.840493721841632,
+            16.777870926155924, 17.70009080680228
+          ],
+          "energy": 0.699310837492149,
+          "pressSeconds": 1252.6999999999714
+        },
+        {
+          "goals": 17,
+          "shots": 19,
+          "shotsOnTarget": 16,
+          "passes": 510,
+          "completedPasses": 177,
+          "tackles": 299,
+          "interceptions": 139,
+          "saves": 1,
+          "corners": 0,
+          "possessionTicks": 27473,
+          "passCompletion": 0.34705882352941175,
+          "observedTurnovers": 410,
+          "tackleAttempts": 735,
+          "distanceKm": 194.23275691247767,
+          "outfieldKm": [
+            17.174610603844545, 17.76164508070487, 18.3915130421723, 18.210634575879673,
+            18.270934586903874, 19.944858636809926, 18.627259643560883, 20.21041048804185,
+            19.51518778413481, 20.11989825547508
+          ],
+          "energy": 0.730844599747074,
+          "pressSeconds": 980.199999999978
+        }
+      ]
+    },
+    {
+      "seed": 3,
+      "scenario": "balanced",
+      "goals": 12,
+      "homeGoalDifference": 0,
+      "closePairs": 0.5729847494553377,
+      "rapidTurnovers": 449,
+      "team": [
+        {
+          "goals": 6,
+          "shots": 19,
+          "shotsOnTarget": 13,
+          "passes": 419,
+          "completedPasses": 146,
+          "tackles": 288,
+          "interceptions": 133,
+          "saves": 4,
+          "corners": 1,
+          "possessionTicks": 24742,
+          "passCompletion": 0.34844868735083534,
+          "observedTurnovers": 439,
+          "tackleAttempts": 895,
+          "distanceKm": 195.5033499542006,
+          "outfieldKm": [
+            18.78705129188089, 18.97582771354274, 18.903235962735483, 18.6306052300534,
+            20.202235286194398, 18.829327143785676, 18.756022304457126, 18.46772116369963,
+            18.439971817303125, 19.280299840412397
+          ],
+          "energy": 0.7253284512879404,
+          "pressSeconds": 1099.0999999999801
+        },
+        {
+          "goals": 6,
+          "shots": 14,
+          "shotsOnTarget": 10,
+          "passes": 437,
+          "completedPasses": 154,
+          "tackles": 275,
+          "interceptions": 123,
+          "saves": 10,
+          "corners": 0,
+          "possessionTicks": 25790,
+          "passCompletion": 0.3524027459954233,
+          "observedTurnovers": 454,
+          "tackleAttempts": 962,
+          "distanceKm": 198.01718071498803,
+          "outfieldKm": [
+            17.332819958023283, 17.994691505711188, 19.00109331392108, 18.853772521413056,
+            18.537634430761088, 20.165288950099463, 18.74291362113099, 20.15623144067198,
+            19.850596066332248, 20.3005148287835
+          ],
+          "energy": 0.7221732905341223,
+          "pressSeconds": 1142.499999999978
+        }
+      ]
+    },
+    {
+      "seed": 3,
+      "scenario": "low-press",
+      "goals": 8,
+      "homeGoalDifference": -2,
+      "closePairs": 0.5430778371954843,
+      "rapidTurnovers": 392,
+      "team": [
+        {
+          "goals": 3,
+          "shots": 10,
+          "shotsOnTarget": 7,
+          "passes": 403,
+          "completedPasses": 140,
+          "tackles": 201,
+          "interceptions": 169,
+          "saves": 9,
+          "corners": 0,
+          "possessionTicks": 24317,
+          "passCompletion": 0.34739454094292804,
+          "observedTurnovers": 412,
+          "tackleAttempts": 640,
+          "distanceKm": 196.64054129222907,
+          "outfieldKm": [
+            18.87300500510795, 19.11800533560923, 18.75975897898681, 18.776731082678598,
+            20.534193287477283, 18.929766202378584, 18.728583611358737, 18.58552969771821,
+            18.63641881186092, 19.369167440591212
+          ],
+          "energy": 0.7292237692142234,
+          "pressSeconds": 233.10000000000073
+        },
+        {
+          "goals": 5,
+          "shots": 18,
+          "shotsOnTarget": 13,
+          "passes": 502,
+          "completedPasses": 172,
+          "tackles": 262,
+          "interceptions": 121,
+          "saves": 5,
+          "corners": 1,
+          "possessionTicks": 26247,
+          "passCompletion": 0.3426294820717131,
+          "observedTurnovers": 420,
+          "tackleAttempts": 800,
+          "distanceKm": 197.56640710072057,
+          "outfieldKm": [
+            17.305017574744202, 18.086977688586693, 19.244553666221233, 18.79598004947374,
+            18.48180265880483, 20.055294045652293, 18.68640331064773, 20.15408733224883,
+            19.866773000116396, 20.095385251797488
+          ],
+          "energy": 0.7221924324242809,
+          "pressSeconds": 1064.59999999998
+        }
+      ]
+    },
+    {
+      "seed": 3,
+      "scenario": "high-press",
+      "goals": 14,
+      "homeGoalDifference": 0,
+      "closePairs": 0.629996042738425,
+      "rapidTurnovers": 567,
+      "team": [
+        {
+          "goals": 7,
+          "shots": 16,
+          "shotsOnTarget": 12,
+          "passes": 419,
+          "completedPasses": 133,
+          "tackles": 364,
+          "interceptions": 123,
+          "saves": 9,
+          "corners": 0,
+          "possessionTicks": 24598,
+          "passCompletion": 0.31742243436754175,
+          "observedTurnovers": 511,
+          "tackleAttempts": 1115,
+          "distanceKm": 197.17500996340829,
+          "outfieldKm": [
+            19.29369016433078, 19.29221889341097, 18.964294240818347, 18.86658604376412,
+            20.20628828988783, 18.80389843273078, 18.717126085809916, 18.60506962848139,
+            18.42468755328112, 19.459514934214837
+          ],
+          "energy": 0.7130937501476603,
+          "pressSeconds": 2066.899999999943
+        },
+        {
+          "goals": 7,
+          "shots": 18,
+          "shotsOnTarget": 13,
+          "passes": 430,
+          "completedPasses": 152,
+          "tackles": 336,
+          "interceptions": 138,
+          "saves": 6,
+          "corners": 0,
+          "possessionTicks": 26032,
+          "passCompletion": 0.35348837209302325,
+          "observedTurnovers": 526,
+          "tackleAttempts": 1019,
+          "distanceKm": 196.92663122102263,
+          "outfieldKm": [
+            17.422917353765207, 18.139073641569084, 19.003252862060215, 18.6847536777096,
+            18.31737279564662, 20.012130370428114, 18.45369580548713, 20.02665477184548,
+            19.877362706694534, 20.252262402078657
+          ],
+          "energy": 0.7253175370406888,
+          "pressSeconds": 1157.7999999999756
+        }
+      ]
+    },
+    {
+      "seed": 3,
+      "scenario": "wide-352",
+      "goals": 18,
+      "homeGoalDifference": -2,
+      "closePairs": 0.526685393258427,
+      "rapidTurnovers": 404,
+      "team": [
+        {
+          "goals": 8,
+          "shots": 29,
+          "shotsOnTarget": 16,
+          "passes": 409,
+          "completedPasses": 135,
+          "tackles": 258,
+          "interceptions": 147,
+          "saves": 3,
+          "corners": 0,
+          "possessionTicks": 23758,
+          "passCompletion": 0.33007334963325186,
+          "observedTurnovers": 426,
+          "tackleAttempts": 863,
+          "distanceKm": 196.29872421864343,
+          "outfieldKm": [
+            19.246677030072213, 19.255904097686642, 18.525973294465363, 20.308837190663976,
+            20.086706178614385, 18.469514161152706, 18.493869895121225, 18.14178091059481,
+            17.973442896448596, 18.990125098994255
+          ],
+          "energy": 0.7245790275346283,
+          "pressSeconds": 1129.9999999999786
+        },
+        {
+          "goals": 10,
+          "shots": 12,
+          "shotsOnTarget": 11,
+          "passes": 467,
+          "completedPasses": 152,
+          "tackles": 264,
+          "interceptions": 128,
+          "saves": 10,
+          "corners": 1,
+          "possessionTicks": 26070,
+          "passCompletion": 0.32548179871520344,
+          "observedTurnovers": 443,
+          "tackleAttempts": 862,
+          "distanceKm": 192.6939060580674,
+          "outfieldKm": [
+            17.29539133432801, 17.464563640262885, 18.241273597908663, 18.64874771388617,
+            18.019069618181003, 19.585976882609682, 18.380566378707073, 19.859914963752264,
+            19.267296288602125, 19.630449429018665
+          ],
+          "energy": 0.7321355866552764,
+          "pressSeconds": 1119.199999999977
+        }
+      ]
+    },
+    {
+      "seed": 3,
+      "scenario": "strong-home",
+      "goals": 14,
+      "homeGoalDifference": 10,
+      "closePairs": 0.5344999005766554,
+      "rapidTurnovers": 421,
+      "team": [
+        {
+          "goals": 12,
+          "shots": 26,
+          "shotsOnTarget": 21,
+          "passes": 487,
+          "completedPasses": 179,
+          "tackles": 283,
+          "interceptions": 163,
+          "saves": 1,
+          "corners": 0,
+          "possessionTicks": 26028,
+          "passCompletion": 0.3675564681724846,
+          "observedTurnovers": 402,
+          "tackleAttempts": 784,
+          "distanceKm": 209.4427666309051,
+          "outfieldKm": [
+            20.100085398671986, 20.378359073749124, 20.067241520130572, 19.881558891437326,
+            21.47905959962531, 20.293644737131416, 20.264824056906466, 19.969555822012158,
+            20.075241945732632, 20.861786833747402
+          ],
+          "energy": 0.7619969606472842,
+          "pressSeconds": 927.4999999999862
+        },
+        {
+          "goals": 2,
+          "shots": 7,
+          "shotsOnTarget": 4,
+          "passes": 408,
+          "completedPasses": 132,
+          "tackles": 229,
+          "interceptions": 136,
+          "saves": 13,
+          "corners": 0,
+          "possessionTicks": 24278,
+          "passCompletion": 0.3235294117647059,
+          "observedTurnovers": 484,
+          "tackleAttempts": 962,
+          "distanceKm": 199.3368687821008,
+          "outfieldKm": [
+            17.596890039674424, 18.64863463951977, 19.365911966832314, 19.013597868558524,
+            18.428956676466562, 20.16893263518037, 18.791154329593212, 19.934115698852583,
+            19.93629396138532, 20.37618186212881
+          ],
+          "energy": 0.7160709761915719,
+          "pressSeconds": 1272.6999999999705
+        }
+      ]
+    },
+    {
+      "seed": 3,
+      "scenario": "weak-home",
+      "goals": 17,
+      "homeGoalDifference": -15,
+      "closePairs": 0.5833168218743808,
+      "rapidTurnovers": 398,
+      "team": [
+        {
+          "goals": 1,
+          "shots": 1,
+          "shotsOnTarget": 0,
+          "passes": 348,
+          "completedPasses": 114,
+          "tackles": 218,
+          "interceptions": 107,
+          "saves": 10,
+          "corners": 0,
+          "possessionTicks": 22553,
+          "passCompletion": 0.3275862068965517,
+          "observedTurnovers": 444,
+          "tackleAttempts": 1015,
+          "distanceKm": 182.8842252053491,
+          "outfieldKm": [
+            17.881527783892622, 18.163197639125254, 17.55784809857275, 17.488294746677155,
+            18.773659768525924, 17.31467997479279, 17.21063502004946, 17.100125941275632,
+            16.966802042929988, 17.798964526637498
+          ],
+          "energy": 0.6924962291428431,
+          "pressSeconds": 1254.0999999999717
+        },
+        {
+          "goals": 16,
+          "shots": 25,
+          "shotsOnTarget": 19,
+          "passes": 494,
+          "completedPasses": 180,
+          "tackles": 279,
+          "interceptions": 140,
+          "saves": 0,
+          "corners": 0,
+          "possessionTicks": 27966,
+          "passCompletion": 0.3643724696356275,
+          "observedTurnovers": 363,
+          "tackleAttempts": 726,
+          "distanceKm": 195.65745227590907,
+          "outfieldKm": [
+            17.06875377247478, 17.485975892093258, 18.44910051851498, 18.323928528151807,
+            18.566657519598404, 20.144838296387743, 18.616099310648625, 20.49238208596614,
+            19.782533699044, 20.576608645076384
+          ],
+          "energy": 0.7276695978598277,
+          "pressSeconds": 967.2999999999791
+        }
+      ]
+    },
+    {
+      "seed": 4,
+      "scenario": "balanced",
+      "goals": 14,
+      "homeGoalDifference": 0,
+      "closePairs": 0.5799329785137,
+      "rapidTurnovers": 472,
+      "team": [
+        {
+          "goals": 7,
+          "shots": 9,
+          "shotsOnTarget": 9,
+          "passes": 418,
+          "completedPasses": 123,
+          "tackles": 293,
+          "interceptions": 141,
+          "saves": 3,
+          "corners": 0,
+          "possessionTicks": 24562,
+          "passCompletion": 0.2942583732057416,
+          "observedTurnovers": 463,
+          "tackleAttempts": 974,
+          "distanceKm": 197.55197664801483,
+          "outfieldKm": [
+            19.178688501619973, 19.335035978937274, 18.957605974051724, 18.756242488255104,
+            20.299398043241936, 18.856291985704935, 18.93522600213624, 18.722258267279038,
+            18.651393989599317, 19.520909424638088
+          ],
+          "energy": 0.7216164512716688,
+          "pressSeconds": 1124.599999999979
+        },
+        {
+          "goals": 7,
+          "shots": 11,
+          "shotsOnTarget": 8,
+          "passes": 457,
+          "completedPasses": 167,
+          "tackles": 289,
+          "interceptions": 142,
+          "saves": 4,
+          "corners": 0,
+          "possessionTicks": 26158,
+          "passCompletion": 0.36542669584245074,
+          "observedTurnovers": 464,
+          "tackleAttempts": 933,
+          "distanceKm": 198.83350103098792,
+          "outfieldKm": [
+            17.420204467879977, 18.349825853512243, 19.199647137014512, 18.643069697250038,
+            18.669144146746188, 20.231187584972204, 18.730066706571357, 20.31158413682275,
+            20.042465877066203, 20.695007592733926
+          ],
+          "energy": 0.7194412815328225,
+          "pressSeconds": 1166.499999999975
+        }
+      ]
+    },
+    {
+      "seed": 4,
+      "scenario": "low-press",
+      "goals": 10,
+      "homeGoalDifference": 0,
+      "closePairs": 0.5629191321499014,
+      "rapidTurnovers": 404,
+      "team": [
+        {
+          "goals": 5,
+          "shots": 9,
+          "shotsOnTarget": 5,
+          "passes": 409,
+          "completedPasses": 120,
+          "tackles": 221,
+          "interceptions": 176,
+          "saves": 8,
+          "corners": 0,
+          "possessionTicks": 24933,
+          "passCompletion": 0.293398533007335,
+          "observedTurnovers": 440,
+          "tackleAttempts": 702,
+          "distanceKm": 196.37898730849344,
+          "outfieldKm": [
+            18.80956978372606, 19.2802451007989, 18.738475283252125, 18.801697702565022,
+            20.450698569135564, 18.733687971325303, 18.9468461910503, 18.494920150875235,
+            18.594708511410225, 19.31168682659159
+          ],
+          "energy": 0.7311997338856373,
+          "pressSeconds": 253.50000000000102
+        },
+        {
+          "goals": 5,
+          "shots": 15,
+          "shotsOnTarget": 9,
+          "passes": 492,
+          "completedPasses": 160,
+          "tackles": 266,
+          "interceptions": 138,
+          "saves": 3,
+          "corners": 1,
+          "possessionTicks": 25797,
+          "passCompletion": 0.3252032520325203,
+          "observedTurnovers": 439,
+          "tackleAttempts": 863,
+          "distanceKm": 198.07718261843414,
+          "outfieldKm": [
+            17.401301842232986, 18.146002806441064, 19.062211272524873, 18.736661907339293,
+            18.579383938665778, 20.248873393365123, 18.800124700558914, 20.455938461511575,
+            19.811554169148277, 20.192138782623747
+          ],
+          "energy": 0.720765189604294,
+          "pressSeconds": 1160.2999999999752
+        }
+      ]
+    },
+    {
+      "seed": 4,
+      "scenario": "high-press",
+      "goals": 13,
+      "homeGoalDifference": -1,
+      "closePairs": 0.7235387045813586,
+      "rapidTurnovers": 538,
+      "team": [
+        {
+          "goals": 6,
+          "shots": 14,
+          "shotsOnTarget": 7,
+          "passes": 436,
+          "completedPasses": 149,
+          "tackles": 339,
+          "interceptions": 137,
+          "saves": 2,
+          "corners": 1,
+          "possessionTicks": 24981,
+          "passCompletion": 0.34174311926605505,
+          "observedTurnovers": 491,
+          "tackleAttempts": 998,
+          "distanceKm": 195.5328927387169,
+          "outfieldKm": [
+            18.854147984213565, 19.20773581806501, 18.721344402110596, 18.480923280363175,
+            20.25342648906756, 18.97402452930773, 18.794289881277532, 18.50627746893317,
+            18.59506673702732, 19.244132604499942
+          ],
+          "energy": 0.7177793620024739,
+          "pressSeconds": 1830.8999999999453
+        },
+        {
+          "goals": 7,
+          "shots": 9,
+          "shotsOnTarget": 6,
+          "passes": 416,
+          "completedPasses": 136,
+          "tackles": 325,
+          "interceptions": 137,
+          "saves": 4,
+          "corners": 1,
+          "possessionTicks": 25566,
+          "passCompletion": 0.3269230769230769,
+          "observedTurnovers": 511,
+          "tackleAttempts": 1061,
+          "distanceKm": 197.33907089593703,
+          "outfieldKm": [
+            17.34452634810765, 17.961418650112904, 18.95469485678733, 18.671636422878773,
+            18.527504362198474, 20.322045992726366, 18.55902474094062, 19.965953140775188,
+            19.96332057664919, 20.248714896513192
+          ],
+          "energy": 0.7228453953912012,
+          "pressSeconds": 1237.199999999971
+        }
+      ]
+    },
+    {
+      "seed": 4,
+      "scenario": "wide-352",
+      "goals": 15,
+      "homeGoalDifference": -7,
+      "closePairs": 0.5161935225909636,
+      "rapidTurnovers": 445,
+      "team": [
+        {
+          "goals": 4,
+          "shots": 12,
+          "shotsOnTarget": 7,
+          "passes": 431,
+          "completedPasses": 127,
+          "tackles": 281,
+          "interceptions": 129,
+          "saves": 4,
+          "corners": 3,
+          "possessionTicks": 24459,
+          "passCompletion": 0.29466357308584684,
+          "observedTurnovers": 448,
+          "tackleAttempts": 890,
+          "distanceKm": 196.74865329935488,
+          "outfieldKm": [
+            19.371839799539686, 19.068052190306716, 18.608618812569183, 20.31925570637028,
+            20.029237018588102, 18.70135832146747, 18.44992942675647, 18.17701145207321,
+            18.29218014016168, 19.17806506933096
+          ],
+          "energy": 0.7236530706127312,
+          "pressSeconds": 1091.7999999999806
+        },
+        {
+          "goals": 11,
+          "shots": 16,
+          "shotsOnTarget": 11,
+          "passes": 453,
+          "completedPasses": 153,
+          "tackles": 272,
+          "interceptions": 145,
+          "saves": 4,
+          "corners": 0,
+          "possessionTicks": 25678,
+          "passCompletion": 0.33774834437086093,
+          "observedTurnovers": 444,
+          "tackleAttempts": 908,
+          "distanceKm": 196.04641681877996,
+          "outfieldKm": [
+            17.663339576347898, 17.800690226625452, 18.94765586896174, 19.168465818549798,
+            18.15045871645978, 19.728596812417777, 18.447338548538852, 19.9107345634458,
+            19.605299319991307, 20.084661868598147
+          ],
+          "energy": 0.7252189799484358,
+          "pressSeconds": 1146.4999999999766
+        }
+      ]
+    },
+    {
+      "seed": 4,
+      "scenario": "strong-home",
+      "goals": 20,
+      "homeGoalDifference": 12,
+      "closePairs": 0.5356570512820513,
+      "rapidTurnovers": 399,
+      "team": [
+        {
+          "goals": 16,
+          "shots": 26,
+          "shotsOnTarget": 21,
+          "passes": 480,
+          "completedPasses": 156,
+          "tackles": 288,
+          "interceptions": 153,
+          "saves": 2,
+          "corners": 0,
+          "possessionTicks": 25971,
+          "passCompletion": 0.325,
+          "observedTurnovers": 377,
+          "tackleAttempts": 765,
+          "distanceKm": 206.28881043036785,
+          "outfieldKm": [
+            19.3728933024547, 19.935608920137238, 19.570053150013447, 19.278571239867638,
+            21.34340913531771, 20.134151338045008, 20.172037138583757, 19.872538851781833,
+            19.986413754986767, 20.665029036737913
+          ],
+          "energy": 0.7679069254450486,
+          "pressSeconds": 909.6999999999862
+        },
+        {
+          "goals": 4,
+          "shots": 5,
+          "shotsOnTarget": 5,
+          "passes": 403,
+          "completedPasses": 138,
+          "tackles": 222,
+          "interceptions": 124,
+          "saves": 9,
+          "corners": 0,
+          "possessionTicks": 23969,
+          "passCompletion": 0.3424317617866005,
+          "observedTurnovers": 468,
+          "tackleAttempts": 958,
+          "distanceKm": 197.25380945630314,
+          "outfieldKm": [
+            17.325418849616625, 18.360099248291338, 19.179328438914524, 18.738661910485746,
+            18.293057437922474, 19.853072569110616, 18.757223695221175, 19.59595990292244,
+            19.670430406594264, 19.993349864463998
+          ],
+          "energy": 0.7217435432378707,
+          "pressSeconds": 1225.0999999999733
+        }
+      ]
+    },
+    {
+      "seed": 4,
+      "scenario": "weak-home",
+      "goals": 15,
+      "homeGoalDifference": -11,
+      "closePairs": 0.5158083117916087,
+      "rapidTurnovers": 440,
+      "team": [
+        {
+          "goals": 2,
+          "shots": 5,
+          "shotsOnTarget": 4,
+          "passes": 377,
+          "completedPasses": 113,
+          "tackles": 265,
+          "interceptions": 125,
+          "saves": 8,
+          "corners": 1,
+          "possessionTicks": 23461,
+          "passCompletion": 0.29973474801061006,
+          "observedTurnovers": 454,
+          "tackleAttempts": 952,
+          "distanceKm": 181.28648180888192,
+          "outfieldKm": [
+            17.693684387473557, 17.63831787852245, 17.661161172025075, 17.59042968201981,
+            18.551477952829575, 17.001322182461212, 17.095584712931753, 16.971787865492164,
+            16.860896590261262, 17.72325165485676
+          ],
+          "energy": 0.6972738845155412,
+          "pressSeconds": 1220.4999999999734
+        },
+        {
+          "goals": 13,
+          "shots": 23,
+          "shotsOnTarget": 16,
+          "passes": 491,
+          "completedPasses": 183,
+          "tackles": 290,
+          "interceptions": 135,
+          "saves": 2,
+          "corners": 0,
+          "possessionTicks": 26910,
+          "passCompletion": 0.3727087576374745,
+          "observedTurnovers": 419,
+          "tackleAttempts": 797,
+          "distanceKm": 195.5021256621659,
+          "outfieldKm": [
+            17.03784985275371, 17.726546067304884, 18.64818739266401, 18.36876449597879,
+            18.440454292309674, 19.95432622755827, 18.66024733493524, 20.210059592593456,
+            19.88275550809531, 20.303642976027305
+          ],
+          "energy": 0.7286165846688519,
+          "pressSeconds": 998.9999999999784
+        }
+      ]
+    }
+  ]
+}

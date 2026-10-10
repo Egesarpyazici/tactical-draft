@@ -1,0 +1,269 @@
+{
+  "matches": 24,
+  "rows": [
+    {
+      "seed": 1,
+      "pressing": 15,
+      "score": "2-5",
+      "shots": 7,
+      "passes": 425,
+      "completed": 140,
+      "pressSeconds": 205,
+      "energy": 0.727,
+      "events": 2325
+    },
+    {
+      "seed": 1,
+      "pressing": 85,
+      "score": "7-4",
+      "shots": 12,
+      "passes": 434,
+      "completed": 144,
+      "pressSeconds": 1941,
+      "energy": 0.717,
+      "events": 2475
+    },
+    {
+      "seed": 2,
+      "pressing": 15,
+      "score": "5-5",
+      "shots": 9,
+      "passes": 424,
+      "completed": 134,
+      "pressSeconds": 228,
+      "energy": 0.734,
+      "events": 2480
+    },
+    {
+      "seed": 2,
+      "pressing": 85,
+      "score": "8-7",
+      "shots": 16,
+      "passes": 430,
+      "completed": 150,
+      "pressSeconds": 1941,
+      "energy": 0.72,
+      "events": 2492
+    },
+    {
+      "seed": 3,
+      "pressing": 15,
+      "score": "3-5",
+      "shots": 10,
+      "passes": 403,
+      "completed": 140,
+      "pressSeconds": 233,
+      "energy": 0.729,
+      "events": 2368
+    },
+    {
+      "seed": 3,
+      "pressing": 85,
+      "score": "7-7",
+      "shots": 16,
+      "passes": 419,
+      "completed": 133,
+      "pressSeconds": 2067,
+      "energy": 0.713,
+      "events": 2510
+    },
+    {
+      "seed": 4,
+      "pressing": 15,
+      "score": "5-5",
+      "shots": 9,
+      "passes": 409,
+      "completed": 120,
+      "pressSeconds": 254,
+      "energy": 0.731,
+      "events": 2374
+    },
+    {
+      "seed": 4,
+      "pressing": 85,
+      "score": "6-7",
+      "shots": 14,
+      "passes": 436,
+      "completed": 149,
+      "pressSeconds": 1831,
+      "energy": 0.718,
+      "events": 2461
+    },
+    {
+      "seed": 5,
+      "pressing": 15,
+      "score": "3-9",
+      "shots": 4,
+      "passes": 392,
+      "completed": 123,
+      "pressSeconds": 221,
+      "energy": 0.729,
+      "events": 2375
+    },
+    {
+      "seed": 5,
+      "pressing": 85,
+      "score": "6-3",
+      "shots": 16,
+      "passes": 415,
+      "completed": 128,
+      "pressSeconds": 1863,
+      "energy": 0.715,
+      "events": 2451
+    },
+    {
+      "seed": 6,
+      "pressing": 15,
+      "score": "3-6",
+      "shots": 9,
+      "passes": 416,
+      "completed": 114,
+      "pressSeconds": 237,
+      "energy": 0.731,
+      "events": 2438
+    },
+    {
+      "seed": 6,
+      "pressing": 85,
+      "score": "5-5",
+      "shots": 13,
+      "passes": 418,
+      "completed": 133,
+      "pressSeconds": 1845,
+      "energy": 0.714,
+      "events": 2360
+    },
+    {
+      "seed": 7,
+      "pressing": 15,
+      "score": "1-5",
+      "shots": 7,
+      "passes": 387,
+      "completed": 118,
+      "pressSeconds": 244,
+      "energy": 0.725,
+      "events": 2348
+    },
+    {
+      "seed": 7,
+      "pressing": 85,
+      "score": "8-4",
+      "shots": 13,
+      "passes": 439,
+      "completed": 145,
+      "pressSeconds": 1891,
+      "energy": 0.716,
+      "events": 2436
+    },
+    {
+      "seed": 8,
+      "pressing": 15,
+      "score": "3-7",
+      "shots": 5,
+      "passes": 424,
+      "completed": 124,
+      "pressSeconds": 235,
+      "energy": 0.73,
+      "events": 2391
+    },
+    {
+      "seed": 8,
+      "pressing": 85,
+      "score": "7-7",
+      "shots": 9,
+      "passes": 432,
+      "completed": 140,
+      "pressSeconds": 1970,
+      "energy": 0.717,
+      "events": 2487
+    },
+    {
+      "seed": 9,
+      "pressing": 15,
+      "score": "4-4",
+      "shots": 2,
+      "passes": 418,
+      "completed": 128,
+      "pressSeconds": 220,
+      "energy": 0.723,
+      "events": 2323
+    },
+    {
+      "seed": 9,
+      "pressing": 85,
+      "score": "4-7",
+      "shots": 17,
+      "passes": 451,
+      "completed": 157,
+      "pressSeconds": 1966,
+      "energy": 0.714,
+      "events": 2522
+    },
+    {
+      "seed": 10,
+      "pressing": 15,
+      "score": "1-5",
+      "shots": 8,
+      "passes": 425,
+      "completed": 152,
+      "pressSeconds": 223,
+      "energy": 0.728,
+      "events": 2406
+    },
+    {
+      "seed": 10,
+      "pressing": 85,
+      "score": "7-7",
+      "shots": 13,
+      "passes": 440,
+      "completed": 153,
+      "pressSeconds": 1951,
+      "energy": 0.719,
+      "events": 2492
+    },
+    {
+      "seed": 11,
+      "pressing": 15,
+      "score": "8-10",
+      "shots": 10,
+      "passes": 398,
+      "completed": 131,
+      "pressSeconds": 259,
+      "energy": 0.729,
+      "events": 2389
+    },
+    {
+      "seed": 11,
+      "pressing": 85,
+      "score": "8-3",
+      "shots": 16,
+      "passes": 418,
+      "completed": 128,
+      "pressSeconds": 2022,
+      "energy": 0.715,
+      "events": 2559
+    },
+    {
+      "seed": 12,
+      "pressing": 15,
+      "score": "3-7",
+      "shots": 10,
+      "passes": 422,
+      "completed": 149,
+      "pressSeconds": 227,
+      "energy": 0.73,
+      "events": 2427
+    },
+    {
+      "seed": 12,
+      "pressing": 85,
+      "score": "6-8",
+      "shots": 19,
+      "passes": 411,
+      "completed": 121,
+      "pressSeconds": 1961,
+      "energy": 0.717,
+      "events": 2507
+    }
+  ]
+}
