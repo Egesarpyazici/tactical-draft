@@ -1,0 +1,7 @@
+{
+  "engineSHA256": "6d6d77ae6cd405b458c38932e8cbfe31ed54bca759a2b38cd6b7821367b500e7",
+  "benchmark": "../benchmark-seeds-101-124.json",
+  "command": "node --import tsx scripts/arcade-benchmark.ts docs/arcade/benchmark-seeds-101-124.json 24 101",
+  "node": "v24",
+  "description": "Hash over sorted engine paths and exact source bytes; no post-evaluation scoring changes."
+}

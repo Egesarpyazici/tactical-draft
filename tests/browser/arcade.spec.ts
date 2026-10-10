@@ -48,6 +48,7 @@ test('arcade seed 1: halftime, equal unlock, both earned manager shots and 90-mi
     await expect(page.getByRole('region', { name: 'Manuel şut penceresi' })).toBeVisible({
       timeout: 30000,
     });
+    await expect(page.getByText(/Fırsat puanı .*\/100/)).toBeVisible();
     const before = await page.getByTestId('arcade-clock').innerText();
     await page.waitForTimeout(200);
     expect(await page.getByTestId('arcade-clock').innerText()).toBe(before);

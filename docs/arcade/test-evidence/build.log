@@ -1,0 +1,21 @@
+
+> tactical-draft@0.2.0 build
+> tsc -b && vite build
+
+vite v7.3.7 building client environment for production...
+transforming...
+✓ 59 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                         0.54 kB │ gzip:   0.33 kB
+dist/assets/ArcadeApp-X8Ti5SAr.css      9.62 kB │ gzip:   2.66 kB
+dist/assets/index-B4wW9A62.css         14.36 kB │ gzip:   3.83 kB
+dist/assets/ArcadeApp-BT6Ke3db.js      35.09 kB │ gzip:  13.66 kB
+dist/assets/index-D61hwWHt.js         284.37 kB │ gzip:  91.62 kB
+dist/assets/phaser-DFK5Ua9d.js      1,208.06 kB │ gzip: 332.17 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 10.91s

@@ -86,7 +86,9 @@ export function ShotPanel({
             {name} <span>· #{chance.team + 1} kontrolü</span>
           </h2>
         </div>
-        <b>{Math.round(105 - chance.position.x)} m</b>
+        <b>
+          Kale merkezine {Math.round(Math.hypot(105 - chance.position.x, chance.position.y - 34))} m
+        </b>
       </div>
       <p className="ar-muted">
         {chance.practice
@@ -276,8 +278,9 @@ export function ShotPanel({
       </div>
       <div className="ar-shot-footer">
         <span>
-          Baskı %{Math.round(chance.pressure * 100)} · Bitiricilik {chance.skills.finishing} ·
-          Kaleci refleksi {chance.keeper.reflexes}
+          Fırsat puanı {Math.round(chance.quality * 100)}/100 · Baskı %
+          {Math.round(chance.pressure * 100)} · Bitiricilik {chance.skills.finishing} · Kaleci
+          refleksi {chance.keeper.reflexes}
         </span>
         {!result ? (
           <button className="ar-primary" onClick={armed ? shoot : arm}>

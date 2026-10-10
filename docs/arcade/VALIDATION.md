@@ -54,3 +54,20 @@ Maç dışa aktarımı `arcade-slice-a-1` biçiminde tohum, seçenekler, zaman/s
 - İlk iki taraflı fırsat testindeki iyi şut gol olunca sonraki akış değişiyor ve ikinci taraf fırsat bulamıyordu. Tohum değiştirilmedi. Aynı tohum 1 ile açıkça dışarı/yüksek hedefli şut girdileri iki pencere kapsamı için kullanıldı. Ayrı testler fırsatın hiç oluşmamasını da doğrular. Motor test için şut üretmez.
 - Kurtarış olayı artık kaleciye ve savunan takıma yazılır; sayaç-olay eşitliği test edilir.
 - Phaser paket boyutu uyarısı sürüyor (~1.21 MB minified / 332 KB gzip); derleme hatası değildir.
+
+## Ekran kanıtları
+
+Playwright'ın gerçek tarayıcı oturumlarından alınmıştır; tasarım maketi değildir.
+
+- [Maç merkezi](screenshots/arcade-ready.png)
+- [İki tarafın Son Çare değişimi](screenshots/arcade-last-resort.png)
+- [Birinci kazanılmış şut](screenshots/arcade-earned-shot-0.png)
+- [İkinci kazanılmış şut](screenshots/arcade-earned-shot-1.png)
+- [Gerçek maç sonucu](screenshots/arcade-finished.png)
+- [Mobil antrenman](screenshots/arcade-practice-1.png)
+
+Ham test çıktıları `test-evidence/` altında; motor dosyalarının SHA-256 özeti değerlendirme kaydına dahildir.
+
+## Son test özeti
+
+Tek tam Vitest koşusu: 91/91 geçti (160.17 saniye). Tam Playwright koşusu: 7/7 geçti (5.2 dakika); klasik varsayılan izleme, tohum 2026 ile 222.6 saniyede tamamlandı. Bu süre Arcade ölçümü değildir. Son Arcade şut ekranında fırsat puanı ve kale merkezine geometrik mesafe açıklaması eklendi; bu metin düzeltmesi sonrasında üç Arcade akışı ayrıca tekrar çalıştırıldı ve 3/3 geçti. Motor katsayıları ve değerlendirme verisi değişmedi.

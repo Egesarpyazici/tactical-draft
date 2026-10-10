@@ -1,0 +1,16 @@
+
+> tactical-draft@0.2.0 test:e2e
+> playwright test tests/browser/arcade.spec.ts
+
+[WebServer] (node:6063) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 3 tests using 1 worker
+
+(node:6080) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/browser/arcade.spec.ts:16:1 › arcade seed 1: halftime, equal unlock, both earned manager shots and 90-minute result (27.1s)
+  ✓  2 tests/browser/arcade.spec.ts:73:1 › arcade pause and tactical plan apply to the next sequence (7.8s)
+  ✓  3 tests/browser/arcade.spec.ts:87:1 › mobile shot practice is independent and works for both sides with keyboard controls (7.5s)
+
+  3 passed (47.6s)

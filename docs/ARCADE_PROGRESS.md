@@ -1,15 +1,35 @@
-# Arcade Slice A — development checkpoint
+# Tactical Draft — Arcade Slice A
 
-Branch: `feat/arcade-manager-shot-prototype`. Classic engine/UI and PR #1 are preserved; Arcade is available at `/arcade`.
+Dal: `feat/arcade-manager-shot-prototype`. Temel: `feat/simulation-foundation` / `707cc8f`; onaylı tasarım `b036a62`. Kod checkpoint'leri: `fb0cf6e`, `fffa8f6`. Çalışma bu dala commit edilip gönderildi. Klasik motor/UI dosyaları ve PR #1 değiştirilmedi. Ana dala birleştirme veya yayın yapılmadı.
 
-Implemented: independent seeded possession engine; three strategies with spatial, fatigue and passing tradeoffs; real event statistics; 45/70/90 minute boundaries; both teams' striker-to-manager substitutions; one earned manual shot per manager; direction, height, power, timing and goalkeeper interception; isolated two-sided practice; Phaser playback; pause, speed, tactical controls; command export/replay; responsive pine/lime UI.
+## Çalışan kapsam
 
-Verification at checkpoint: 19 Arcade unit tests pass; production build passes. Browser suite: 2 pass, 1 fails due to an undefined ball-path point in Phaser, despite reaching full time and both earned manual shots. This rendering failure is NOT resolved yet. StrictMode duplicate canvas creation was fixed. Investigate negative initial requestAnimationFrame elapsed time next.
+- `/arcade`: bağımsız, tohumlu TypeScript sekans motoru; iki kurgusal 11, 90 dakika, devre arası, 70. dakika karar durağı ve maç sonu.
+- Yüksek pres, kompakt kontra ve topa sahip olma: pas riski, baskı/top kazanım bölgesi, ilerleme, şut fırsatı, yerleşim ve enerji bedelleri farklıdır. Maç öncesi ve duraklatılmış maçta değişiklik sonraki sekansa uygulanır.
+- Phaser 2D saha, motor kaynaklı oyuncu/top yolları, kaleci bitiş konumu, hız seçimi ve duraklatma. Önceden belirlenmiş maç skoru yoktur; yalnız güncel sekans hesaplanıp oynatılır.
+- İki taraf için eşit Son Çare: 70'ten sonra bir saha oyuncusunun yerine yönetici, 11 kişi/1 kaleci korunur; yöneticiye özel fırsat veya gol bonusu yoktur. Yeterli kaliteye sahip gerçek fırsat doğarsa tek manuel şut açılır. Hiç fırsat bulamamak geçerli sonuçtur.
+- Yön/ince hedef, yükseklik, güç ve zamanlama; kaleci tepkisi/erişimi, baskı, kondisyon ve bitiricilikten hesaplanan gol/kurtarış/dışarı/üstten dışarı. Aynı fizik iki taraf için geçerlidir. Klavye ve dokunma kontrolleri, maçtan ayrı iki taraflı antrenman.
+- Koyu yeşil/lime arayüz; kadro/özellikler, gerçek istatistik ve olaylar, taktik öncesi/sonrası gözlem, yönetici katkısı, maç JSON'u ve motor seviyesinde komut tekrarı.
+- Eski sürüm `/` adresinde korunur. Çevrim içi oda, draft ve gelişmiş rol editörü yoktur.
 
-Remaining: resolve browser error; rerun full regression and build; inspect screenshots; run held-out tactical comparisons; report balance limitations and supported controls; commit/push final changes and create a separate draft PR targeting `feat/simulation-foundation`.
+## Doğrulama kaydı
 
-Known limits: possession strategy needs further balancing; current arcade goal totals are high, not calibrated professional-football statistics. No online rooms, draft, full rule set, general substitutions or role editor. Current sequence is resolved before playback; tactics affect subsequent sequences. Last Resort does not guarantee a shot. Browser coverage uses seed 1 and deliberate misses to exercise both earned windows without forcing chances in the engine.
+- `npm test`: **91/91 geçti**, tek tam koşu, 160.17 saniye. Eski 71 + yeni 20 test. Determinizm/komut tekrarı, oyun sınırları, geçersiz komutlar, eşit erişim, tek şut, fırsat eşiği, şut fiziği, taktik bedelleri ve animasyon zaman regresyonu.
+- `npm run build`: başarılı; TypeScript ve Vite üretim derlemesi. Phaser paket boyutu uyarısı sürüyor.
+- **7/7 Playwright testi geçti** (5.2 dakika): üç Arcade akışı ve dört klasik regresyon. Gerçek 90 dakika/iki kazanılmış manuel şut, duraklatma/taktik, mobil/klavye/iki taraflı antrenman; klasik varsayılan tam maç 222.6 saniyede tamamlandı. Son şut ekranı metin/mesafe düzeltmesinin ardından **3/3 Arcade tarayıcı testi yeniden geçti**; son üretim derlemesi de başarılı. Açık başarısız test yok.
+- Değişen kod/belgeler için Prettier ve `git diff --check` başarılı.
+- Tohum 101–124 ile **216 maç** ve ham veri: [doğrulama/denge raporu](arcade/VALIDATION.md), [JSON](arcade/benchmark-seeds-101-124.json). İlk kalibrasyon/test örnekleminden ayrıdır.
+- Tarayıcıda bulunan StrictMode çift canvas ve negatif ilk kare ilerleme hataları düzeltildi. Açıklaması doğrulama raporundadır; test başarısızlıkları gizlenmedi.
 
-## Second checkpoint
+## Kullanıcı testi
 
-Resolved negative RAF progress (with regression coverage), duplicate StrictMode canvas startup, initial formation display, sequence position continuity and save-event attribution. Arcade tests: 20/20 pass before the final full regression; Arcade browser tests: 3/3 pass after the RAF fix. Final build passes. Held-out 216-match report and local/Codespaces instructions are in `docs/arcade/VALIDATION.md` and `PLAY.md`. Full legacy+Arcade regression and final browser rerun are underway. Final PR still pending.
+[Çalıştırma, Codespaces ve kontroller](arcade/PLAY.md). Kısaca `npm ci`, `npm run dev`, ardından `http://localhost:5173/arcade`. Varsayılan hızda hesaplanan aktif maç süresi 5.7–6.2 dakika; tarayıcı tam maç doğrulaması hızlı modda yapıldı. İnsan karar süreleri ve cihaz etkisi ayrıdır.
+
+## Açık borçlar ve sonraki iş
+
+1. Rekabetçi denge bitmedi: topa sahip olma zayıf, maçların gol hacmi yüksek. Ham sonuçlar raporda; bu sürüm profesyonel futbol istatistiklerine kalibre değildir. Kadro aynalama ve yeni tohum gruplarıyla ayrı dengeleme çalışması gerekir.
+2. Görselleştirme sekans enterpolasyonudur. Her pas alıcısının ayağına fiziksel temas, bağımsız sürekli oyuncu AI, tam duran top/faul/ofsayt/hava topu yoktur. Fırsat puanı kalibre xG değildir.
+3. Şut ve taktikler yerel istemcide çalışır. Sunucu otoritesi, süre sınırı, hile önleme ve çevrim içi odalar Slice C'dir. JSON içe aktarma ekranı yoktur.
+4. Normal hızda Arcade tam maçının gerçek duvar süresi ve düşük güçlü fiziksel mobil cihaz testleri yapılmadı. Görsel ve otomatik akış kontrolü, gerçek kullanıcı eğlence testi yerine geçmez.
+5. Genel yedek/değişiklik sistemi ve geniş rol/draft arayüzü Slice B'dir. Yönetici hakkı sonrası pas desteğinde kalır, tekrar şut alıcısı seçilmez.
+6. Taslak inceleme: [PR #2](https://github.com/Egesarpyazici/tactical-draft/pull/2), hedef `feat/simulation-foundation`. PR #1 ve `main` değiştirilmedi. Son belge/ekran kanıtları bu PR kapsamındadır. Slice A oynanabilir prototip teslimi tamamlandı; yukarıdaki denge/gerçekçilik sınırları devam eder.
