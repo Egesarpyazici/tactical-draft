@@ -87,6 +87,9 @@ describe('arcade checkpoints and fair manager opportunities', () => {
         expect(st.shots).toBe(
           m.state.events.filter((e) => e.team === team && e.kind === 'shot').length,
         );
+        expect(st.saves).toBe(
+          m.state.events.filter((e) => e.team === team && e.kind === 'save').length,
+        );
         expect(st.managerShots).toBeLessThanOrEqual(1);
         expect(st.passes).toBeGreaterThanOrEqual(st.completed);
       }

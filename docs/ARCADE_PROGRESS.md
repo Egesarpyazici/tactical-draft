@@ -9,3 +9,7 @@ Verification at checkpoint: 19 Arcade unit tests pass; production build passes. 
 Remaining: resolve browser error; rerun full regression and build; inspect screenshots; run held-out tactical comparisons; report balance limitations and supported controls; commit/push final changes and create a separate draft PR targeting `feat/simulation-foundation`.
 
 Known limits: possession strategy needs further balancing; current arcade goal totals are high, not calibrated professional-football statistics. No online rooms, draft, full rule set, general substitutions or role editor. Current sequence is resolved before playback; tactics affect subsequent sequences. Last Resort does not guarantee a shot. Browser coverage uses seed 1 and deliberate misses to exercise both earned windows without forcing chances in the engine.
+
+## Second checkpoint
+
+Resolved negative RAF progress (with regression coverage), duplicate StrictMode canvas startup, initial formation display, sequence position continuity and save-event attribution. Arcade tests: 20/20 pass before the final full regression; Arcade browser tests: 3/3 pass after the RAF fix. Final build passes. Held-out 216-match report and local/Codespaces instructions are in `docs/arcade/VALIDATION.md` and `PLAY.md`. Full legacy+Arcade regression and final browser rerun are underway. Final PR still pending.

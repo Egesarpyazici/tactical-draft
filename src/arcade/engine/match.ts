@@ -1,4 +1,12 @@
-import { clamp, emptyStats, lineups, managerSkills, STRATEGIES, Stream } from './model';
+import {
+  clamp,
+  emptyStats,
+  lineups,
+  managerSkills,
+  STRATEGIES,
+  Stream,
+  tacticalPosition,
+} from './model';
 import { resolveShot, validateInput } from './shot';
 import type {
   ArcadeCommand,
@@ -141,28 +149,7 @@ export class ArcadeMatch {
     });
   }
   private pose(team: Side, index: number, ball: Point): Point {
-    const s = this.state,
-      t = s.teams[team],
-      p = t.players[index],
-      plan = STRATEGIES[t.strategy];
-    const bx = world(ball, team).x,
-      attack = s.possession === team;
-    const base = {
-      GK: 5,
-      CB: plan.line * 0.65,
-      FB: plan.line * 0.7 + 8,
-      MID: plan.line * 0.6 + 22,
-      W: plan.line * 0.4 + 43,
-      ST: plan.line * 0.3 + 57,
-    }[p.profile];
-    const lanes = [34, 7, 24, 44, 61, 20, 34, 48, 9, 34, 59];
-    return world(
-      {
-        x: clamp(base + (attack ? (bx - 52) * 0.25 : 0), 2, 101),
-        y: clamp(34 + ((lanes[index] - 34) * plan.width) / 60, 3, 65),
-      },
-      team,
-    );
+    return tacticalPosition(this.state.teams[team], team, index, ball, this.state.possession);
   }
   advance(): Sequence {
     const s = this.state;
@@ -182,7 +169,9 @@ export class ArcadeMatch {
       t.players.map((p, i) => ({
         id: p.id,
         team: ti as Side,
-        from: this.pose(ti as Side, i, s.ball),
+        from: {
+          ...(s.last?.motions.find((m) => m.id === p.id)?.to ?? this.pose(ti as Side, i, s.ball)),
+        },
         to: this.pose(ti as Side, i, s.ball),
         keeper: p.profile === 'GK',
         manager: p.manager,
@@ -393,7 +382,12 @@ export class ArcadeMatch {
       }
     }
     for (const motion of motions) {
-      if (motion.id === s.pending?.shooter || motion.id === seq.shot?.chance.shooter) continue;
+      if (
+        motion.id === s.pending?.shooter ||
+        motion.id === seq.shot?.chance.shooter ||
+        (seq.shot && motion.keeper && motion.team !== team)
+      )
+        continue;
       const t = s.teams[motion.team],
         index = t.players.findIndex((p) => p.id === motion.id);
       motion.to = this.pose(motion.team, index, s.ball);
@@ -448,7 +442,13 @@ export class ArcadeMatch {
       if (manual) t.managerGoals++;
     }
     if (result.outcome === 'save') op.saves++;
-    this.emit(c.team, result.outcome, result.reason, { player: c.shooter });
+    const defending = other(c.team),
+      keeper = s.teams[defending].players.find((p) => p.profile === 'GK')!;
+    this.emit(result.outcome === 'save' ? defending : c.team, result.outcome, result.reason, {
+      player: result.outcome === 'save' ? keeper.id : c.shooter,
+    });
+    const keeperMotion = s.last!.motions.find((m) => m.id === keeper.id)!;
+    keeperMotion.to = world({ x: result.keeperX, y: result.keeperY }, c.team);
     s.last!.shot = { chance: structuredClone(c), result };
     s.last!.ball.push(world(result.target, c.team));
     s.possession = other(c.team);

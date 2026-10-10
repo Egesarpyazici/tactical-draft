@@ -1,5 +1,5 @@
 import { createTeams } from '../../data/teams';
-import type { ArcadeTeam, Footballer, Profile, Skills, Stat, Strategy } from './types';
+import type { ArcadeTeam, Footballer, Profile, Skills, Stat, Strategy, Point, Side } from './types';
 export const clamp = (n: number, lo = 0, hi = 1) => Math.max(lo, Math.min(hi, n));
 export class Stream {
   constructor(public state: number) {}
@@ -123,3 +123,30 @@ export const emptyStats = (): Stat => ({
   managerShots: 0,
   managerGoals: 0,
 });
+
+export function tacticalPosition(
+  t: ArcadeTeam,
+  team: Side,
+  index: number,
+  ball: Point,
+  possession: Side,
+): Point {
+  const p = t.players[index],
+    plan = STRATEGIES[t.strategy];
+  const bx = team === 0 ? ball.x : 105 - ball.x,
+    attack = possession === team;
+  const base = {
+    GK: 5,
+    CB: plan.line * 0.65,
+    FB: plan.line * 0.7 + 8,
+    MID: plan.line * 0.6 + 22,
+    W: plan.line * 0.4 + 43,
+    ST: plan.line * 0.3 + 57,
+  }[p.profile];
+  const lanes = [34, 7, 24, 44, 61, 20, 34, 48, 9, 34, 59];
+  const local = {
+    x: clamp(base + (attack ? (bx - 52) * 0.25 : 0), 2, 101),
+    y: clamp(34 + ((lanes[index] - 34) * plan.width) / 60, 3, 65),
+  };
+  return { x: team === 0 ? local.x : 105 - local.x, y: local.y };
+}

@@ -1,3 +1,4 @@
+import { advancePlayback } from './playback';
 import { useEffect, useRef, useState } from 'react';
 import { ArcadeMatch } from '../engine/match';
 import { managerSkills, STRATEGIES } from '../engine/model';
@@ -40,7 +41,7 @@ export function ArcadeApp() {
       last = performance.now();
     const run = (now: number) => {
       const duration = view === 'quick' ? 80 : view === 'extended' ? 6000 : 4000;
-      pRef.current = Math.min(1, pRef.current + (now - last) / duration);
+      pRef.current = advancePlayback(pRef.current, last, now, duration);
       last = now;
       setProgress(pRef.current);
       if (pRef.current >= 1) {

@@ -1,5 +1,7 @@
 import { useEffect, useRef } from 'react';
 import Phaser from 'phaser';
+import { tacticalPosition } from '../engine/model';
+import type { Side } from '../engine/types';
 import type { ArcadeState } from '../engine/types';
 export function ArcadePitch({ state, progress }: { state: ArcadeState; progress: number }) {
   const host = useRef<HTMLDivElement>(null),
@@ -48,7 +50,7 @@ export function ArcadePitch({ state, progress }: { state: ArcadeState; progress:
           .flatMap((t, team) => t.players.map((pl, i) => ({ pl, team, i })))
           .forEach(({ pl, team, i }, n) => {
             const m = moves?.find((m) => m.id === pl.id),
-              fallback = { x: team === 0 ? 8 + i * 3 : 97 - i * 3, y: 8 + i * 5 };
+              fallback = tacticalPosition(s.teams[team], team as Side, i, s.ball, s.possession);
             const from = m?.from ?? fallback,
               to = m?.to ?? fallback;
             const px = x(from.x + (to.x - from.x) * p),
